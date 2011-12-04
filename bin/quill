@@ -1,0 +1,43 @@
+#!/usr/bin/env node
+
+var path = require('path'),
+    flatiron = require('flatiron');
+
+var quillDir = path.join(__dirname, '..', 'lib', 'quill'),
+    quill = require(quillDir);
+
+quill.use(flatiron.plugins.cli, {
+  dir: path.join(__dirname, '..', 'lib', 'quill', 'commands'),
+  usage: [
+    'Write beautiful music in the cloud from the command-line'
+  ],
+  config: {
+    stores: {
+      defaults: {
+        'root': process.env.HOME,
+        'debug': true,
+        'protocol': 'http',
+        'remoteHost': 'api.orchestrion.com',
+        'loglength': 110,
+        'userconfig': '.jitsuconf',
+        'loglevel': 'info',
+        'tmproot': '/tmp',
+        'tar': 'tar',
+        'colors': true,
+        'gzipbin': 'gzip'
+      },
+      quillconf: {
+        type: 'file',
+        file: '.quillconf',
+        search: true
+      }
+    }
+  }
+});
+
+//
+// Load CLI extensions to quill
+//
+require(path.join(quillDir, 'cli'));
+
+quill.start();
