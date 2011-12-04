@@ -1,0 +1,41 @@
+{
+  "name": "quill",
+  "description": "Write beautiful music in the cloud from the command-line",
+  "version": "0.0.0",
+  "author": "Nodejitsu Inc. <info@nodejitsu.com>",
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/nodejitsu/quill.git"
+  },
+  "keywords": [
+    "deploy",
+    "conservatory",
+    "sysadmin",
+    "orchestrion"
+  ],
+  "dependencies": {
+    "cloudfiles": "0.2.x",
+    "cloudservers": "0.2.x",
+    "flatiron": "0.1.x",
+    "nconf": "0.4.x",
+    "nconf-redis": "~0.2.1",
+    "neuron": "0.4.x",
+    "optimist": "0.2.x",
+    "request": "1.9.x",
+    "xml2js": ">= 0.1.5"
+  },
+  "devDependencies": {
+    "vows": "0.6.x"
+  },
+  "private": true,
+  "bin": {
+    "quill": "./bin/quill"
+  },
+  "main": "./lib/quill",
+  "scripts": {
+    "test": "vows test/*-test.js --spec -i"
+  },
+  "engines": {
+    "node": ">= 0.4.4"
+  }
+}
