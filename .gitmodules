@@ -1,3 +1,0 @@
-[submodule "vendor/conservatory"]
-	path = vendor/conservatory
-	url = git@github.com:nodejitsu/conservatory.git

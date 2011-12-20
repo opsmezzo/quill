@@ -17,6 +17,7 @@
     "cliff": "0.x.x",
     "cloudfiles": "0.2.x",
     "cloudservers": "0.2.x",
+    "conservatory": "git+ssh://git@github.com:nodejitsu/conservatory.git",
     "flatiron": "0.1.x",
     "nconf": "0.4.x",
     "nconf-redis": "~0.2.1",
