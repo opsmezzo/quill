@@ -14,6 +14,7 @@
     "orchestrion"
   ],
   "dependencies": {
+    "cliff": "0.x.x",
     "cloudfiles": "0.2.x",
     "cloudservers": "0.2.x",
     "flatiron": "0.1.x",
