@@ -1,6 +1,6 @@
 {
   "name": "quill",
-  "description": "Write beautiful music in the cloud from the command-line",
+  "description": "Flawless configuration of your cloud",
   "version": "0.0.0",
   "author": "Nodejitsu Inc. <info@nodejitsu.com>",
   "repository": {
@@ -11,20 +11,14 @@
     "deploy",
     "conservatory",
     "sysadmin",
-    "orchestrion"
+    "configuration"
   ],
   "dependencies": {
-    "cliff": "0.x.x",
-    "cloudfiles": "0.2.x",
-    "cloudservers": "0.2.x",
-    "conservatory": "git+ssh://git@github.com:nodejitsu/conservatory.git",
+    "colors": "0.6.0-1",
+    "cli-config": "0.1.0",
     "flatiron": "0.1.x",
     "nconf": "0.4.x",
-    "nconf-redis": "~0.2.1",
-    "neuron": "0.4.x",
-    "optimist": "0.2.x",
-    "request": "1.9.x",
-    "xml2js": ">= 0.1.5"
+    "pkginfo": "0.2.2"
   },
   "devDependencies": {
     "vows": "0.6.x"
