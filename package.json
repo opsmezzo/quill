@@ -15,11 +15,15 @@
   ],
   "dependencies": {
     "colors": "0.6.0-1",
+    "conservatory-api": "git+ssh://git@github.com:nodejitsu/conservatory.git",
     "cli-config": "0.1.0",
     "flatiron": "0.1.x",
     "nconf": "0.4.x",
     "pkginfo": "0.2.2"
   },
+  "bundleDependencies": [
+    "conservatory-api"
+  ],
   "devDependencies": {
     "nock": "0.9.x",
     "vows": "0.6.x"
