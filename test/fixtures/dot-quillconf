@@ -1,1 +1,4 @@
-{}
+{
+  "remoteHost": "api.testquill.com",
+  "port": 80
+}
