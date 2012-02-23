@@ -10,16 +10,16 @@ var assert = require('assert'),
     path = require('path'),
     nock = require('nock'),
     vows = require('vows'),
-    quill = require('../../lib/quill');
+    quill = require('../lib/quill');
 
-var systemsDir = path.join(__dirname, '..', 'fixtures', 'systems');
+var systemsDir = path.join(__dirname, 'fixtures', 'systems');
 
 function shouldIgnore(system, pattern) {
   return {
     topic: function () {
       var target = path.join(systemsDir, system);
       
-      quill.common.system.listFiles(target, { path: target }, this.callback);
+      quill.composer.listFiles(target, { path: target }, this.callback);
     },
     "should ignore the correct files": function (err, files) {
       assert.isNull(err);
@@ -30,8 +30,8 @@ function shouldIgnore(system, pattern) {
   }
 }
 
-vows.describe('quill/common/systems').addBatch({
-  "When using quill.common.systems": {
+vows.describe('quill/composer').addBatch({
+  "When using quill.composer": {
     "the listFiles() method": {
       "with a directory containing .quillignore": shouldIgnore('quillignore', /quill-ignored/),
       "with a directory containing .gitignore": shouldIgnore('gitignore', /git-ignored/),
@@ -39,7 +39,7 @@ vows.describe('quill/common/systems').addBatch({
         topic: function () {
           var target = this.target = path.join(systemsDir, 'ubuntu-base');
 
-          quill.common.system.listFiles(target, { path: target }, this.callback);
+          quill.composer.listFiles(target, { path: target }, this.callback);
         },
         "should have the correct files": function (err, files) {
           assert.isNull(err);
