@@ -46,7 +46,14 @@ function shouldPackage(tarball) {
 }
 
 vows.describe('quill/commands/systems').addBatch({
-  'package redis': shouldPackage('redis.tgz')
+  'pack redis': shouldPackage('redis.tgz')
 }).addBatch({
-  'systems package ubuntu-base': shouldPackage('ubuntu-base.tgz')
+  'systems pack ubuntu-base': shouldPackage('ubuntu-base.tgz')
+}).addBatch({
+  'pack noexist': shouldQuillOk(
+    'should respond with ENOENT',
+    function (err, _) {
+      assert.equal(err.code, 'ENOENT');
+    }
+  )
 }).export(module);

@@ -1,0 +1,27 @@
+#!/usr/bin/env node
+
+//
+// Binary file for templating necessary files for default node system
+//
+
+var fs = require('fs'),
+    util = require('util'),
+    argv = require('optimist').argv;
+
+fs.readFile('gmond.conf', function (err, data) {
+  if (err) {
+    util.puts('Error templating gmond.conf: ' + err);
+    process.exit(0);
+  }
+  
+  var target = data.toString();
+  target = target.replace('{{ cluster-name }}', 'Nodejitsu ' + argv.env);
+  target = target.replace('{{ host }}', argv.address);
+  
+  fs.writeFile('gmond.conf', target, function (err) {
+    if (err) {
+      util.puts('Error writing gmond.conf: ' + err);
+      process.exit(0);
+    }
+  });
+});

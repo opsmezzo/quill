@@ -47,7 +47,8 @@ vows.describe('quill/commands/keys').addBatch({
       assert.isNull(err);
       assert.isString(hostname);
     }
-  ),
+  )
+}).addBatch({
   'hostname': shouldQuillOk(
     'should respond with the hostname',
     function (err, hostname) {

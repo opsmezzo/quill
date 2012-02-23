@@ -65,7 +65,7 @@ exports.shouldQuillOk = function () {
   };
 
   context[assertion] = assertFn 
-    ? assertFn 
+    ? assertFn
     : function (err) { assert.isTrue(!err) };
   
   return context;
