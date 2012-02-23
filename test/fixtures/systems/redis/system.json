@@ -1,0 +1,11 @@
+{
+  "name": "redis",
+  "version": "0.0.0",
+  "description": "redis sane defaults",
+  "keywords": ["redis", "nosql", "databases"],
+  "author": "Nodejitsu Inc <info@nodejitsu.com>",
+  "runlist": ["*"],
+  "os": {
+    "ubuntu": ["ubuntu-base"]
+  }
+}
