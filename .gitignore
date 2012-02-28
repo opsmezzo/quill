@@ -2,3 +2,5 @@ node_modules
 npm-debug.log
 test/fixtures/test-quillconf
 test/fixtures/systems/*.tgz
+test/fixtures/untar/*
+!test/fixtures/untar/.gitkeep

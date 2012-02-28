@@ -23,7 +23,9 @@
     "graceful-fs": "1.1.5",
     "minimatch": "0.2.0",
     "pkginfo": "0.2.2",
+    "read-dir-files": "0.x.x",
     "tar": "0.1.12",
+    "uid-number": "0.0.1",
     "union": "0.1.7"
   },
   "bundleDependencies": [
@@ -39,7 +41,7 @@
   },
   "main": "./lib/quill",
   "scripts": {
-    "test": "vows test/*-test.js test/commands/*-test.js --spec"
+    "test": "vows test/**/*-test.js --spec"
   },
   "engines": {
     "node": ">= 0.4.4"

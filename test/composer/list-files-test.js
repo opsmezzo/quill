@@ -1,5 +1,5 @@
 /*
- * system-test.js: Tests for utility functions related to packaging systems.
+ * list-files-test.js: Tests for utility functions related to listing files and working with ignores.
  *
  * (C) 2010, Nodejitsu Inc.
  *
@@ -10,9 +10,9 @@ var assert = require('assert'),
     path = require('path'),
     nock = require('nock'),
     vows = require('vows'),
-    quill = require('../lib/quill');
+    quill = require('../../lib/quill');
 
-var systemsDir = path.join(__dirname, 'fixtures', 'systems');
+var systemsDir = path.join(__dirname, '..', 'fixtures', 'systems');
 
 function shouldIgnore(system, pattern) {
   return {
@@ -30,7 +30,7 @@ function shouldIgnore(system, pattern) {
   }
 }
 
-vows.describe('quill/composer').addBatch({
+vows.describe('quill/composer/list-files').addBatch({
   "When using quill.composer": {
     "the listFiles() method": {
       "with a directory containing .quillignore": shouldIgnore('quillignore', /quill-ignored/),
