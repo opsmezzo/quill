@@ -56,4 +56,25 @@ vows.describe('quill/commands/systems').addBatch({
       assert.equal(err.code, 'ENOENT');
     }
   )
+}).addBatch({
+  'systems view test-system': shouldQuillOk(function setup() {
+    nock('http://api.testquill.com')
+      .get('/systems/test-system')
+      .reply(200, {
+        system: {
+          resource: 'System',
+          name: 'test-system',
+          version: '0.0.0',
+          description: 'Test fixtures system',
+          keywords: ['test', 'fixture', 'seed-data'],
+          author: 'Nodejitsu Inc. <info@nodejitsu.com>',
+          dependencies: {
+            'ubuntu-base': '0.1.0'
+          },
+          runlist: ['ubuntu-base'],
+          files: ['test-config.json'],
+          scripts: ['bootstrap.sh', 'image.sh']
+        }
+      })
+  })
 }).export(module);
