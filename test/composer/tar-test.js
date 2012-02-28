@@ -36,11 +36,11 @@ function assertIncludesAll(base, target) {
   }
 }
 
-vows.describe('quill/composer/untar').addBatch({
+vows.describe('quill/composer/tar').addBatch({
   "When using quill.composer": {
-    "the untar() method": {
+    "the tar.unpack() method": {
       topic: function () {
-        quill.composer.untar(
+        quill.composer.tar.unpack(
           path.join(systemsDir, 'redis.tgz'),
           placeDir,
           null,

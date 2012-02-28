@@ -77,4 +77,6 @@ vows.describe('quill/commands/systems').addBatch({
         }
       })
   })
+}).addBatch({
+  
 }).export(module);
