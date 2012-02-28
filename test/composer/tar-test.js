@@ -1,5 +1,5 @@
 /*
- * untar-test.js: Tests for unpacking tarballs.
+ * tar-test.js: Tests for working with tarballs.
  *
  * (C) 2010, Nodejitsu Inc.
  *

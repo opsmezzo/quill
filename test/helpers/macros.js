@@ -4,8 +4,18 @@ var assert = require('assert'),
     path = require('path'),
     util = require('util'),
     base64 = require('flatiron').common.base64,
-    quill = require('../../lib/quill');
+    nock = require('nock'),
+    helpers = require('./index'),
+    mock = require('./mock'),
+    quill = require('../../lib/quill'),
+    trees = require('../fixtures/systems/trees');
 
+//
+// ### function shouldQuillOk
+//
+// Test macro which executes the quill command for
+// the current vows context.
+//
 exports.shouldQuillOk = function () {
   var args = Array.prototype.slice.call(arguments),
       assertion = "should respond with no error",
@@ -70,3 +80,49 @@ exports.shouldQuillOk = function () {
   
   return context;
 };
+
+//
+// ### function shouldInit()
+// 
+// Test macro which initializes quill.
+//
+exports.shouldInit = function () {
+  return {
+    "This test requires quill.init()": {
+      topic: function () {
+        helpers.init(this.callback);
+      },
+      "with no error": function (err) {
+        assert.isTrue(!err);
+      }
+    }
+  };
+};
+
+//
+// ### function shouldFindDeps (args, systems, tree)
+//
+// Setups mock API endpoints for the `systems`, invokes 
+// `quill.composer.dependencies(args)` and asserts the result
+// is equal to `tree`.
+//
+exports.shouldFindDeps = function (args) {
+  var api = nock('http://api.testquill.com'),
+      fixture = trees[args],
+      systems = fixture.systems,
+      tree = fixture.tree;
+  
+  systems.forEach(function (system) {
+    mock.systems.get(api, system);
+  });
+  
+  return {
+    topic: function () {
+      quill.composer.dependencies(args, this.callback);
+    },
+    "should respond with the correct dependency tree": function (err, actual) {
+      assert.isNull(err);
+      assert.deepEqual(actual, tree);
+    }
+  }
+}
