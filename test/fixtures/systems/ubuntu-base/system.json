@@ -4,6 +4,5 @@
   "description": "Base configuration for Ubuntu",
   "keywords": ["base", "os", "ubuntu"],
   "author": "Nodejitsu Inc <info@nodejitsu.com>",
-  "runlist": ["*"],
   "os": "ubuntu"
 }

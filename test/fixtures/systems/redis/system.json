@@ -4,8 +4,12 @@
   "description": "redis sane defaults",
   "keywords": ["redis", "nosql", "databases"],
   "author": "Nodejitsu Inc <info@nodejitsu.com>",
-  "runlist": ["*"],
   "os": {
-    "ubuntu": ["ubuntu-base"]
+    "ubuntu": {
+      "version": "11.04",
+      "dependencies": {
+        "ubuntu-base": "0.0.x"
+      }
+    }
   }
 }
