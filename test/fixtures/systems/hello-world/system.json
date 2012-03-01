@@ -1,0 +1,10 @@
+{
+  "name": "hello-world",
+  "version": "0.0.0",
+  "description": "Hello world test fixtures",
+  "author": "Nodejitsu Inc <info@nodejitsu.com>",
+  "dependencies": {
+    "fixture-one": "0.0.0",
+    "fixture-two": "0.0.0"
+  }
+}
