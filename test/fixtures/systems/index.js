@@ -14,6 +14,17 @@ var systems = module.exports = [
     }
   }, 
   {
+    name: 'single-dep',
+    version: '0.1.0',
+    versions: {
+      '0.1.0': {
+        dependencies: {
+          a: '0.0.1'
+        }
+      }
+    }
+  },
+  {
     name: 'depends-on-a-b',
     version: '0.1.2',
     versions: {
@@ -38,6 +49,20 @@ var systems = module.exports = [
           c: '0.3.0'
         }
       }
+    }
+  },
+  {
+    name: 'single-ubuntu-dep',
+    version: '0.0.1',
+    versions: {
+      '0.0.1': {
+        dependencies: {
+          'a': '0.0.1'
+        }
+      }
+    },
+    os: {
+      ubuntu: { 'b': '0.2.0' }
     }
   },
   {
@@ -67,3 +92,25 @@ var systems = module.exports = [
     }
   }
 ];
+
+//
+// Fill duplicate properties in `versions` of all systems.
+//
+systems.forEach(function (system) {
+  if (!system.versions) {
+    return;
+  }
+  
+  function hoistValue(version, prop) {
+    system.versions[version][prop] = system.versions[version][prop]
+      || system[prop];
+  }
+  
+  Object.keys(system.versions).forEach(function (version) {
+    //
+    // TODO: Hoist all the things!
+    //
+    hoistValue(version, 'name');
+    hoistValue(version, 'os');
+  });
+});

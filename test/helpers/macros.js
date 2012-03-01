@@ -100,7 +100,7 @@ exports.shouldInit = function () {
 };
 
 //
-// ### function shouldFindDeps (args, systems, tree)
+// ### function shouldFindDeps (args)
 //
 // Setups mock API endpoints for the `systems`, invokes 
 // `quill.composer.dependencies(args)` and asserts the result
@@ -125,13 +125,13 @@ exports.shouldFindDeps = function (args) {
 };
 
 //
-// ### function shouldFindDeps (args, systems, tree)
+// ### function shouldMakeRunlist (args, os)
 //
 // Setups mock API endpoints for the `systems`, invokes 
-// `quill.composer.dependencies(args)` and asserts the result
+// `quill.composer.runlist(args[, os])` and asserts the result
 // is equal to `list`.
 //
-exports.shouldMakeRunlist = function (args) {
+exports.shouldMakeRunlist = function (args, os) {
   var api = nock('http://api.testquill.com'),
       fixture = trees[args],
       list = fixture.list;
@@ -140,7 +140,10 @@ exports.shouldMakeRunlist = function (args) {
     
   return {
     topic: function () {
-      quill.composer.runlist(args, this.callback);
+      quill.composer.runlist.apply(
+        quill.composer,
+        [args, os, this.callback].filter(Boolean)
+      );
     },
     "should respond with the correct runlist": function (err, actual) {
       assert.isNull(err);
