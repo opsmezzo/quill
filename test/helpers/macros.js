@@ -106,7 +106,7 @@ exports.shouldInit = function () {
 // `quill.composer.dependencies(args)` and asserts the result
 // is equal to `tree`.
 //
-exports.shouldFindDeps = function (args) {
+exports.shouldFindDeps = function (args, os) {
   var api = nock('http://api.testquill.com'),
       fixture = trees[args],
       tree = fixture.tree;
@@ -115,7 +115,10 @@ exports.shouldFindDeps = function (args) {
     
   return {
     topic: function () {
-      quill.composer.dependencies(args, this.callback);
+      quill.composer.dependencies.apply(
+        quill.composer,
+        [args, os, this.callback].filter(Boolean)
+      );
     },
     "should respond with the correct dependency tree": function (err, actual) {
       assert.isNull(err);
@@ -150,4 +153,14 @@ exports.shouldMakeRunlist = function (args, os) {
       assert.deepEqual(actual, list);
     }
   }
-}
+};
+
+exports.shouldAnalyzeDeps = function (fn) {
+  return {
+    "with a no dependencies": fn('no-deps'),
+    "with a single dependency (implicit runlist)": fn('single-dep'),
+    "with multiple dependencies": fn('depends-on-a-b'),
+    "with a dependency in a dependency": fn('dep-in-dep'),
+    "with a single OS dependency": fn('single-ubuntu-dep', 'ubuntu')
+  };
+};

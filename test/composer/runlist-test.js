@@ -16,12 +16,8 @@ var assert = require('assert'),
 
 vows.describe('quill/composer/runlist').addBatch(macros.shouldInit()).addBatch({
   "When using quill.composer": {
-    "the dependencies() method": {
-      "with a no dependencies": macros.shouldMakeRunlist('no-deps'),
-      "with a single dependency (implicit runlist)": macros.shouldMakeRunlist('single-dep'),
-      "with multiple dependencies": macros.shouldMakeRunlist('depends-on-a-b'),
-      "with a dependency in a dependency": macros.shouldMakeRunlist('dep-in-dep'),
-      "with a single OS dependency": macros.shouldMakeRunlist('single-ubuntu-dep', 'ubuntu')
-    }
+    "the dependencies() method": macros.shouldAnalyzeDeps(
+      macros.shouldMakeRunlist
+    )
   }
 }).export(module);

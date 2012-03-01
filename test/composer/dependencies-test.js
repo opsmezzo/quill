@@ -16,9 +16,8 @@ var assert = require('assert'),
 
 vows.describe('quill/composer/dependencies').addBatch(macros.shouldInit()).addBatch({
   "When using quill.composer": {
-    "the dependencies() method": {
-      "with a single dependency": macros.shouldFindDeps('no-deps'),
-      "with multiple dependencies": macros.shouldFindDeps('depends-on-a-b')
-    }
+    "the dependencies() method": macros.shouldAnalyzeDeps(
+      macros.shouldFindDeps
+    )
   }
 }).export(module);
