@@ -18,7 +18,8 @@ trees['no-deps'] = {
       '0.1.2': {}
     }
   }],
-  tree: { 'no-deps@0.1.2': null }
+  tree: { 'no-deps@0.1.2': null },
+  list: ['no-deps@0.1.2']
 };
 
 //
@@ -30,6 +31,7 @@ trees['depends-on-a-b'] = {
     version: '0.1.2',
     versions: {
       '0.1.2': {
+        runlist: ['b', 'a'],
         dependencies: {
           a: '0.0.1',
           b: '0.2.0'
@@ -53,6 +55,7 @@ trees['depends-on-a-b'] = {
     'depends-on-a-b@0.1.2': {
       'a@0.0.1': null,
       'b@0.2.0': null
-    } 
-  }
+    }
+  },
+  list: ['b@0.2.0', 'a@0.0.1', 'depends-on-a-b@0.1.2']
 };

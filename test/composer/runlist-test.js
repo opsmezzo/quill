@@ -1,5 +1,5 @@
 /*
- * dependencies-test.js: Tests for working with dependency trees.
+ * runlist-test.js: Tests for working with runlists.
  *
  * (C) 2010, Nodejitsu Inc.
  *
@@ -14,11 +14,11 @@ var assert = require('assert'),
     macros = require('../helpers/macros'),
     quill = require('../../lib/quill');
 
-vows.describe('quill/composer/dependencies').addBatch(macros.shouldInit()).addBatch({
+vows.describe('quill/composer/runlist').addBatch(macros.shouldInit()).addBatch({
   "When using quill.composer": {
     "the dependencies() method": {
-      "with a single dependency": macros.shouldFindDeps('no-deps'),
-      "with multiple dependencies": macros.shouldFindDeps('depends-on-a-b')
+      "with a single dependency": macros.shouldMakeRunlist('no-deps'),
+      "with multiple dependencies": macros.shouldMakeRunlist('depends-on-a-b')
     }
   }
 }).export(module);

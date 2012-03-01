@@ -124,5 +124,33 @@ exports.shouldFindDeps = function (args) {
       assert.isNull(err);
       assert.deepEqual(actual, tree);
     }
+  };
+};
+
+//
+// ### function shouldFindDeps (args, systems, tree)
+//
+// Setups mock API endpoints for the `systems`, invokes 
+// `quill.composer.dependencies(args)` and asserts the result
+// is equal to `list`.
+//
+exports.shouldMakeRunlist = function (args) {
+  var api = nock('http://api.testquill.com'),
+      fixture = trees[args],
+      systems = fixture.systems,
+      list = fixture.list;
+  
+  systems.forEach(function (system) {
+    mock.systems.get(api, system);
+  });
+  
+  return {
+    topic: function () {
+      quill.composer.runlist(args, this.callback);
+    },
+    "should respond with the correct runlist": function (err, actual) {
+      assert.isNull(err);
+      assert.deepEqual(actual, list);
+    }
   }
 }
