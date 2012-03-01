@@ -37,7 +37,7 @@ vows.describe('quill/composer/list-files').addBatch({
       "with a directory containing .gitignore": shouldIgnore('gitignore', /git-ignored/),
       "with ubuntu-base": {
         topic: function () {
-          var target = this.target = path.join(systemsDir, 'ubuntu-base');
+          var target = this.target = path.join(systemsDir, 'hello-world');
 
           quill.composer.listFiles(target, { path: target }, this.callback);
         },
@@ -49,8 +49,7 @@ vows.describe('quill/composer/list-files').addBatch({
             return file.replace(that.target, '').slice(1);
           }).filter(Boolean);
           
-          ['files/gmond.conf',
-           'files/template',
+          ['files/hello-world.txt',
            'files',
            'scripts/bootstrap.sh',
            'scripts',

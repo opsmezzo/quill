@@ -41,7 +41,7 @@ vows.describe('quill/composer/tar').addBatch({
     "the tar.unpack() method": {
       topic: function () {
         quill.composer.unpack(
-          path.join(systemsDir, 'redis.tgz'),
+          path.join(systemsDir, 'fixture-one.tgz'),
           placeDir,
           null,
           this.callback
@@ -49,13 +49,13 @@ vows.describe('quill/composer/tar').addBatch({
       },
       "should create the correct director": function (err, target) {
         assert.isNull(err);
-        assert.isTrue(target.indexOf('/redis') !== -1)
+        assert.isTrue(target.indexOf('/fixture-one') !== -1)
       },
       "should extract the correct files": {
         topic: function () {
           async.map([
-            path.join(placeDir, 'redis'),
-            path.join(systemsDir, 'redis')
+            path.join(placeDir, 'fixture-one'),
+            path.join(systemsDir, 'fixture-one')
           ], function (dir, next) {
             readDirFiles.list(dir, { normalize: false }, next)
           }, this.callback);

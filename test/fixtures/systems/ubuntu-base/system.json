@@ -1,8 +1,0 @@
-{
-  "name": "ubuntu-base",
-  "version": "0.0.0",
-  "description": "Base configuration for Ubuntu",
-  "keywords": ["base", "os", "ubuntu"],
-  "author": "Nodejitsu Inc <info@nodejitsu.com>",
-  "os": "ubuntu"
-}

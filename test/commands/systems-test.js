@@ -46,9 +46,9 @@ function shouldPackage(tarball) {
 }
 
 vows.describe('quill/commands/systems').addBatch({
-  'pack redis': shouldPackage('redis.tgz')
+  'pack fixture-one': shouldPackage('fixture-one.tgz')
 }).addBatch({
-  'systems pack ubuntu-base': shouldPackage('ubuntu-base.tgz')
+  'systems pack fixture-two': shouldPackage('fixture-two.tgz')
 }).addBatch({
   'pack noexist': shouldQuillOk(
     'should respond with ENOENT',
