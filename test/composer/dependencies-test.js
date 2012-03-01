@@ -1,5 +1,5 @@
 /*
- * dependencies-test.js: Tests for working with dependency trees.
+ * dependencies-test.js: Tests for working with dependency trees and runlists.
  *
  * (C) 2010, Nodejitsu Inc.
  *
