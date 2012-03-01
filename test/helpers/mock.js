@@ -14,8 +14,13 @@ mock.api     = nock('http://api.testquill.com');
 mock.systems = {};
 
 mock.systems.get = function (api, system) {
-  api.get('/systems/' + system.name)
-    .reply(200, { system: system });
+  for (var i = 5; i > 0; i--) {
+    //
+    // Remark: This is bad. Should have an option with always returns this thing.
+    //
+    api.get('/systems/' + system.name)
+      .reply(200, { system: system });
+  }
 };
 
 mock.systems.all = function (api) {

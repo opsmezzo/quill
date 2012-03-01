@@ -25,7 +25,21 @@ var systems = module.exports = [
         }
       }
     }
-  }, 
+  },
+  {
+    name: 'dep-in-dep',
+    version: '1.0.2',
+    versions: {
+      '1.0.2': {
+        runlist: ['c', 'b', 'a'],
+        dependencies: {
+          a: '0.0.1',
+          b: '0.2.0',
+          c: '0.3.0'
+        }
+      }
+    }
+  },
   {
     name: 'a',
     version: '0.0.1',
@@ -38,6 +52,18 @@ var systems = module.exports = [
     version: '0.2.0',
     versions: {
       '0.2.0': {}
+    }
+  },
+  {
+    name: 'c',
+    version: '0.3.0',
+    versions: {
+      '0.3.0': {
+        runlist: ['b'],
+        dependencies: {
+          b: '0.2.0'
+        }
+      }
     }
   }
 ];

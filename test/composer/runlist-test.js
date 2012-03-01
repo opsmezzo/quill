@@ -18,7 +18,8 @@ vows.describe('quill/composer/runlist').addBatch(macros.shouldInit()).addBatch({
   "When using quill.composer": {
     "the dependencies() method": {
       "with a single dependency": macros.shouldMakeRunlist('no-deps'),
-      "with multiple dependencies": macros.shouldMakeRunlist('depends-on-a-b')
+      "with multiple dependencies": macros.shouldMakeRunlist('depends-on-a-b'),
+      "with a dependency in a dependency": macros.shouldMakeRunlist('dep-in-dep')
     }
   }
 }).export(module);
