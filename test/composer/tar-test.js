@@ -40,7 +40,7 @@ vows.describe('quill/composer/tar').addBatch({
   "When using quill.composer": {
     "the tar.unpack() method": {
       topic: function () {
-        quill.composer.tar.unpack(
+        quill.composer.unpack(
           path.join(systemsDir, 'redis.tgz'),
           placeDir,
           null,
