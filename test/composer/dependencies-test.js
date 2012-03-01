@@ -18,6 +18,9 @@ vows.describe('quill/composer/dependencies').addBatch(macros.shouldInit()).addBa
   "When using quill.composer": {
     "the dependencies() method": macros.shouldAnalyzeDeps(
       macros.shouldFindDeps
+    ),
+    "the runlist() method": macros.shouldAnalyzeDeps(
+      macros.shouldMakeRunlist
     )
   }
 }).export(module);
