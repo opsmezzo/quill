@@ -109,13 +109,10 @@ exports.shouldInit = function () {
 exports.shouldFindDeps = function (args) {
   var api = nock('http://api.testquill.com'),
       fixture = trees[args],
-      systems = fixture.systems,
       tree = fixture.tree;
   
-  systems.forEach(function (system) {
-    mock.systems.get(api, system);
-  });
-  
+  mock.systems.all(api);
+    
   return {
     topic: function () {
       quill.composer.dependencies(args, this.callback);
@@ -137,13 +134,10 @@ exports.shouldFindDeps = function (args) {
 exports.shouldMakeRunlist = function (args) {
   var api = nock('http://api.testquill.com'),
       fixture = trees[args],
-      systems = fixture.systems,
       list = fixture.list;
-  
-  systems.forEach(function (system) {
-    mock.systems.get(api, system);
-  });
-  
+      
+  mock.systems.all(api);
+    
   return {
     topic: function () {
       quill.composer.runlist(args, this.callback);

@@ -11,13 +11,7 @@ var trees = exports;
 // Dependency tree with no dependencies
 //
 trees['no-deps'] = {
-  systems: [{
-    name: 'no-deps',
-    version: '0.1.2',
-    versions: {
-      '0.1.2': {}
-    }
-  }],
+  systems: ['no-deps'],
   tree: { 'no-deps@0.1.2': null },
   list: ['no-deps@0.1.2']
 };
@@ -26,31 +20,7 @@ trees['no-deps'] = {
 // Dependency tree with two dependencies
 //
 trees['depends-on-a-b'] = {
-  systems: [{
-    name: 'depends-on-a-b',
-    version: '0.1.2',
-    versions: {
-      '0.1.2': {
-        runlist: ['b', 'a'],
-        dependencies: {
-          a: '0.0.1',
-          b: '0.2.0'
-        }
-      }
-    }
-  }, {
-    name: 'a',
-    version: '0.0.1',
-    versions: {
-      '0.0.1': {}
-    }
-  }, {
-    name: 'b',
-    version: '0.2.0',
-    versions: {
-      '0.2.0': {}
-    }
-  }],
+  systems: ['depends-on-a-b'],
   tree: { 
     'depends-on-a-b@0.1.2': {
       'a@0.0.1': null,
