@@ -30,7 +30,7 @@ function shouldIgnore(system, pattern) {
   }
 }
 
-vows.describe('quill/composer/list-files').addBatch({
+vows.describe('quill/composer/files').addBatch({
   "When using quill.composer": {
     "the listFiles() method": {
       "with a directory containing .quillignore": shouldIgnore('quillignore', /quill-ignored/),
