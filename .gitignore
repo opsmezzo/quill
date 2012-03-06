@@ -4,4 +4,6 @@ test/fixtures/test-quillconf
 test/fixtures/systems/*.tgz
 test/fixtures/untar/*
 !test/fixtures/untar/.gitkeep
+test/fixtures/cache/*
+!test/fixtures/cache/.gitkeep
 .DS_Store
