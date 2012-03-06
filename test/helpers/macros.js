@@ -82,11 +82,11 @@ exports.shouldQuillOk = function () {
 };
 
 //
-// ### function shouldInit()
+// ### function shouldInit(done)
 // 
 // Test macro which initializes quill.
 //
-exports.shouldInit = function () {
+exports.shouldInit = function (done) {
   return {
     "This test requires quill.init()": {
       topic: function () {
@@ -94,6 +94,10 @@ exports.shouldInit = function () {
       },
       "with no error": function (err) {
         assert.isTrue(!err);
+        
+        if (done) {
+          done();
+        }
       }
     }
   };

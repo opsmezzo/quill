@@ -20,12 +20,14 @@ var fixturesDir = path.join(__dirname, '..', 'fixtures'),
     cacheDir = path.join(fixturesDir, 'cache'),
     sourceDir = path.join(systemsDir, 'tgz');
 
-vows.describe('quill/composer/dependencies').addBatch(macros.shouldInit()).addBatch({
+vows.describe('quill/composer/dependencies').addBatch(
+  macros.shouldInit(function () {
+    quill.config.set('directories:cache', cacheDir);
+  })
+).addBatch({
   "When using quill.composer.cache": {
     "the addOne() method": {
       topic: function () {
-        quill.config.set('directories:cache', cacheDir);
-        
         quill.composer.cache.addOne({
           name: 'fixture-one', 
           version: '0.0.0',
@@ -47,6 +49,34 @@ vows.describe('quill/composer/dependencies').addBatch(macros.shouldInit()).addBa
         // Move the tarball back
         //
         fs.renameSync(version.tarball, path.join(sourceDir, 'fixture-one.tgz'));
+      }
+    }
+  }
+}).addBatch({
+  "When using quill.composer.cache": {
+    "the list() method": {
+      topic: function () {
+        quill.composer.cache.list(this.callback);
+      },
+      "should respond with all systems in the cache": function (err, cache) {
+        assert.isNull(err);
+        assert.isObject(cache);
+        assert.isArray(cache['fixture-one'])
+        assert.lengthOf(cache['fixture-one'], 1);
+      }
+    }
+  }
+}).addBatch({
+  "When using quill.composer.cache": {
+    "the clean() method": {
+      "when removing all systems": {
+        topic: function () {
+          quill.composer.cache.clean(this.callback);
+        },
+        "should remove all files from the cache": function (err) {
+          assert.isTrue(!err);
+          assert.lengthOf(fs.readdirSync(cacheDir), 1);
+        }
       }
     }
   }
