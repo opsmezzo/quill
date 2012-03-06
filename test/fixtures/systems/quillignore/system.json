@@ -1,9 +1,7 @@
 {
-  "name": "ubuntu-base",
+  "name": "quillignore",
   "version": "0.0.0",
-  "description": "Base configuration for Ubuntu",
-  "keywords": ["base", "os", "ubuntu"],
-  "author": "Nodejitsu Inc <info@nodejitsu.com>",
-  "runlist": ["*"],
-  "os": "ubuntu"
+  "description": "System with quillignore file",
+  "keywords": ["test", "fixture", "quillignore"],
+  "author": "Nodejitsu Inc <info@nodejitsu.com>"
 }
