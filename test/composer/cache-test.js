@@ -8,10 +8,12 @@
 var assert = require('assert'),
     fs = require('fs'),
     path = require('path'),
+    common = require('flatiron').common,
     nock = require('nock'),
     vows = require('vows'),
     helpers = require('../helpers'),
     macros = require('../helpers/macros'),
+    mock = require('../helpers/mock'),
     quill = require('../../lib/quill');
 
 var fixturesDir = path.join(__dirname, '..', 'fixtures'),
@@ -59,14 +61,38 @@ vows.describe('quill/composer/dependencies').addBatch(
 }).addBatch({
   "When using quill.composer.cache": {
     "the clean() method": {
-      "when removing a single system": {
+      "when removing named systems": {
         topic: function () {
-          quill.composer.cache.clean('fixture-two', this.callback);
+          quill.composer.cache.clean(['fixture-one', 'fixture-two'], this.callback);
         },
         "should remove all files from the cache": function (err) {
           assert.isTrue(!err);
-          assert.lengthOf(fs.readdirSync(cacheDir), 2);
+          assert.lengthOf(fs.readdirSync(cacheDir), 1);
         }
+      }
+    }
+  }
+}).addBatch({
+  "When using quill.composer.cache": {
+    "the add() method": {
+      topic: function () {
+        var api = nock('http://api.testquill.com'),
+            that = this;
+        
+        mock.systems.local(api, function () {
+          quill.composer.cache.add('hello-world', that.callback);
+        });
+      },
+      "add the system and all dependencies to the cache": function (err, versions) {
+        assert.isNull(err);
+        assert.isArray(versions);
+        assert.lengthOf(versions, 3);
+        
+        var files = fs.readdirSync(cacheDir);
+        
+        versions.forEach(function (version) {
+          assert.include(files, version.name);
+        })
       }
     }
   }
