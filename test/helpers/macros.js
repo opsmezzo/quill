@@ -1,5 +1,6 @@
 
 var assert = require('assert'),
+    fs = require('fs'),
     http = require('http'),
     path = require('path'),
     util = require('util'),
@@ -166,5 +167,31 @@ exports.shouldAnalyzeDeps = function (fn) {
     "with multiple dependencies": fn('depends-on-a-b'),
     "with a dependency in a dependency": fn('dep-in-dep'),
     "with a single OS dependency": fn('single-ubuntu-dep', 'ubuntu')
+  };
+};
+
+exports.shouldAddOne = function (sourceDir, system) {
+  var tarball = system.tarball;
+  return {
+    topic: function () {
+      system.tarball = path.join(sourceDir, system.tarball);
+      quill.composer.cache.addOne(system, this.callback);
+    },
+    "should add the system to the cache": function (err, version) {
+      assert.isNull(err);
+      assert.isObject(version);
+      assert.include(version, 'root');
+      assert.include(version, 'dir');
+      assert.include(version, 'tarball');
+      
+      assert.isObject(fs.statSync(version.root));
+      assert.isObject(fs.statSync(version.dir));
+      assert.isObject(fs.statSync(version.tarball));
+      
+      //
+      // Move the tarball back
+      //
+      fs.renameSync(version.tarball, path.join(sourceDir, tarball));
+    }
   };
 };

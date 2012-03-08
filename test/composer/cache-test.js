@@ -26,31 +26,19 @@ vows.describe('quill/composer/dependencies').addBatch(
   })
 ).addBatch({
   "When using quill.composer.cache": {
-    "the addOne() method": {
-      topic: function () {
-        quill.composer.cache.addOne({
-          name: 'fixture-one', 
-          version: '0.0.0',
-          tarball: path.join(sourceDir, 'fixture-one.tgz')
-        }, this.callback);
-      },
-      "should add the system to the cache": function (err, version) {
-        assert.isNull(err);
-        assert.isObject(version);
-        assert.include(version, 'root');
-        assert.include(version, 'dir');
-        assert.include(version, 'tarball');
-        
-        assert.isObject(fs.statSync(version.root));
-        assert.isObject(fs.statSync(version.dir));
-        assert.isObject(fs.statSync(version.tarball));
-        
-        //
-        // Move the tarball back
-        //
-        fs.renameSync(version.tarball, path.join(sourceDir, 'fixture-one.tgz'));
-      }
-    }
+    "the addOne() method": macros.shouldAddOne(sourceDir, {
+      name: 'fixture-one', 
+      version: '0.0.0',
+      tarball: 'fixture-one.tgz'
+    })
+  }
+}).addBatch({
+  "When using quill.composer.cache": {
+    "the addOne() method": macros.shouldAddOne(sourceDir, {
+      name: 'fixture-two', 
+      version: '0.0.0',
+      tarball: 'fixture-two.tgz'
+    })
   }
 }).addBatch({
   "When using quill.composer.cache": {
@@ -63,6 +51,22 @@ vows.describe('quill/composer/dependencies').addBatch(
         assert.isObject(cache);
         assert.isArray(cache['fixture-one'])
         assert.lengthOf(cache['fixture-one'], 1);
+        assert.isArray(cache['fixture-two'])
+        assert.lengthOf(cache['fixture-two'], 1);
+      }
+    }
+  }
+}).addBatch({
+  "When using quill.composer.cache": {
+    "the clean() method": {
+      "when removing a single system": {
+        topic: function () {
+          quill.composer.cache.clean('fixture-two', this.callback);
+        },
+        "should remove all files from the cache": function (err) {
+          assert.isTrue(!err);
+          assert.lengthOf(fs.readdirSync(cacheDir), 2);
+        }
       }
     }
   }
