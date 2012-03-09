@@ -22,7 +22,7 @@ var fixturesDir = path.join(__dirname, '..', 'fixtures'),
     cacheDir = path.join(fixturesDir, 'cache'),
     sourceDir = path.join(systemsDir, 'tgz');
 
-vows.describe('quill/composer/dependencies').addBatch(
+vows.describe('quill/composer/cache').addBatch(
   macros.shouldInit(function () {
     quill.config.set('directories:cache', cacheDir);
   })
