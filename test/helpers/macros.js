@@ -177,21 +177,23 @@ exports.shouldAddOne = function (sourceDir, system) {
       system.tarball = path.join(sourceDir, system.tarball);
       quill.composer.cache.addOne(system, this.callback);
     },
-    "should add the system to the cache": function (err, version) {
+    "should add the system to the cache": function (err, system) {
       assert.isNull(err);
-      assert.isObject(version);
-      assert.include(version, 'root');
-      assert.include(version, 'dir');
-      assert.include(version, 'tarball');
+      assert.isObject(system);
+      assert.include(system, 'name');
+      assert.include(system, 'version');
+      assert.include(system, 'root');
+      assert.include(system, 'path');
+      assert.include(system, 'tarball');
       
-      assert.isObject(fs.statSync(version.root));
-      assert.isObject(fs.statSync(version.dir));
-      assert.isObject(fs.statSync(version.tarball));
+      assert.isObject(fs.statSync(system.root));
+      assert.isObject(fs.statSync(system.path));
+      assert.isObject(fs.statSync(system.tarball));
       
       //
       // Move the tarball back
       //
-      fs.renameSync(version.tarball, path.join(sourceDir, tarball));
+      fs.renameSync(system.tarball, path.join(sourceDir, tarball));
     }
   };
 };

@@ -28,6 +28,20 @@ vows.describe('quill/composer/dependencies').addBatch(
   })
 ).addBatch({
   "When using quill.composer.cache": {
+    "the clean() method": {
+      "when removing all systems": {
+        topic: function () {
+          quill.composer.cache.clean(this.callback);
+        },
+        "should remove all files from the cache": function (err) {
+          assert.isTrue(!err);
+          assert.lengthOf(fs.readdirSync(cacheDir), 1);
+        }
+      }
+    }
+  }
+}).addBatch({
+  "When using quill.composer.cache": {
     "the addOne() method": macros.shouldAddOne(sourceDir, {
       name: 'fixture-one', 
       version: '0.0.0',
@@ -92,7 +106,13 @@ vows.describe('quill/composer/dependencies').addBatch(
         
         versions.forEach(function (version) {
           assert.include(files, version.name);
-        })
+          
+          try { var system = JSON.parse(fs.readFileSync(path.join(version.path, 'system.json'))) }
+          catch (ex) { assert.isNull(ex) }
+          
+          assert.isObject(system);
+          assert.equal(version.name, system.name);
+        });
       }
     }
   }
