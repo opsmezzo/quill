@@ -52,6 +52,11 @@ exports.shouldQuillOk = function () {
       quill.argv._ = this.context.name.split(' ')
       quill.config.stores.file.file = path.join(__dirname, '..', 'fixtures', 'dot-quillconf');
       quill.config.stores.file.loadSync();
+      
+      //
+      // Setup mock directories
+      //
+      quill.config.set('directories:ssh', path.join(__dirname, '..', 'fixtures', 'keys'));
 
       // Pad the output slightly
       console.log('');

@@ -1,11 +1,12 @@
 node_modules
 npm-debug.log
-test/fixtures/test-quillconf
-test/fixtures/systems/*.tgz
-test/fixtures/untar/*
-!test/fixtures/untar/.gitkeep
 test/fixtures/cache/*
 !test/fixtures/cache/.gitkeep
 test/fixtures/installed/*
 !test/fixtures/installed/.gitkeep
+test/fixtures/keys/authorized_keys
+test/fixtures/systems/*.tgz
+test/fixtures/test-quillconf
+test/fixtures/untar/*
+!test/fixtures/untar/.gitkeep
 .DS_Store

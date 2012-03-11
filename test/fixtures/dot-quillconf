@@ -1,4 +1,6 @@
 {
+  "username": "devjitsu",
+  "password": "1234",
   "remoteHost": "api.testquill.com",
   "port": 80
 }

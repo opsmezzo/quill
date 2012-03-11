@@ -40,6 +40,12 @@ function assertWroteKeys(target) {
   }
 }
 
+//
+// Remove any existing keys for test idempotency.
+//
+try { fs.unlinkSync(quill.common.authorizedKeys.filename) }
+catch (ex) { }
+
 vows.describe('quill/commands/keys').addBatch({
   'keys hostname': shouldQuillOk(
     'should respond with the hostname',
@@ -76,6 +82,15 @@ vows.describe('quill/commands/keys').addBatch({
       nock('http://api.testquill.com')
         .get('/keys/devjitsu')
         .reply(200, { keys: appendKeys })
+    }
+  )
+}).addBatch({
+  'keys upload test/fixtures/keys/test-key.pub': shouldQuillOk(
+    function setup() {
+      nock('http://api.testquill.com')
+        .post('/keys/devjitsu/publicKey', {
+          'key': '0123456789012345678901234567890123456789012345678901234567890123456789'
+        }).reply(201, '')
     }
   )
 }).export(module);
