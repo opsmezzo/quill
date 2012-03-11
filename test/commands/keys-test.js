@@ -57,7 +57,7 @@ vows.describe('quill/commands/keys').addBatch({
     }
   )
 }).addBatch({
-  'keys downloadall': shouldQuillOk(
+  'keys authorize-all': shouldQuillOk(
     'should write the correct keys to disk',
     assertWroteKeys(keys),
     function setup() {
@@ -69,7 +69,7 @@ vows.describe('quill/commands/keys').addBatch({
     }
   )
 }).addBatch({
-  'keys download devjitsu': shouldQuillOk(
+  'keys authorize devjitsu': shouldQuillOk(
     'should append the correct keys to disk',
     assertWroteKeys(keys.concat(appendKeys)),
     function setup() {
