@@ -17,9 +17,11 @@ var assert = require('assert'),
 
 var fixturesDir = path.join(__dirname, '..', 'fixtures'),
     systemsDir = path.join(fixturesDir, 'systems'),
+    installDir = path.join(fixturesDir, 'installed'),
     cacheDir = path.join(fixturesDir, 'cache');
 
 function assertScriptOutput(actual, expected) {
+  assert.isObject(actual);
   assert.equal(actual.name, expected);
   assert.equal(actual.data, fs.readFileSync(
     path.join(systemsDir, expected, 'files', expected + '.txt'),
@@ -30,6 +32,7 @@ function assertScriptOutput(actual, expected) {
 vows.describe('quill/composer/lifecycle').addBatch(
   macros.shouldInit(function () {
     quill.config.set('directories:cache', cacheDir);
+    quill.config.set('directories:install', installDir);
   })
 ).addBatch({
   "When using quill.composer": {

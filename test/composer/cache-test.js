@@ -42,19 +42,28 @@ vows.describe('quill/composer/cache').addBatch(
   }
 }).addBatch({
   "When using quill.composer.cache": {
-    "the addOne() method": macros.shouldAddOne(sourceDir, {
-      name: 'fixture-one', 
-      version: '0.0.0',
-      tarball: 'fixture-one.tgz'
-    })
+    "the addOne() method": {
+      "with a new system": macros.shouldAddOne(sourceDir, {
+        name: 'fixture-one', 
+        version: '0.0.0',
+        tarball: 'fixture-one.tgz'
+      })
+    }
   }
 }).addBatch({
   "When using quill.composer.cache": {
-    "the addOne() method": macros.shouldAddOne(sourceDir, {
-      name: 'fixture-two', 
-      version: '0.0.0',
-      tarball: 'fixture-two.tgz'
-    })
+    "the addOne() method": {
+      "with an existing system": macros.shouldAddOne(sourceDir, {
+        name: 'fixture-one', 
+        version: '0.0.0',
+        tarball: 'fixture-one.tgz'
+      }),
+      "with a new system": macros.shouldAddOne(sourceDir, {
+        name: 'fixture-two', 
+        version: '0.0.0',
+        tarball: 'fixture-two.tgz'
+      })
+    }
   }
 }).addBatch({
   "When using quill.composer.cache": {
