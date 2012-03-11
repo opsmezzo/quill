@@ -46,37 +46,52 @@ exports.shouldQuillOk = function () {
   var context = {
     topic: function () {
       
-      var that = this,
+      var fixturesDir = path.join(__dirname, '..', 'fixtures'),
+          that = this,
           argv;
           
       quill.argv._ = this.context.name.split(' ')
-      quill.config.stores.file.file = path.join(__dirname, '..', 'fixtures', 'dot-quillconf');
-      quill.config.stores.file.loadSync();
       
-      //
-      // Setup mock directories
-      //
-      quill.config.set('directories:ssh', path.join(__dirname, '..', 'fixtures', 'keys'));
-
+      if (!quill.initialized) {
+        quill.config.stores.file.file = path.join(fixturesDir, 'dot-quillconf');
+        quill.config.stores.file.loadSync();
+        
+        //
+        // Setup mock directories
+        //
+        quill.options.directories['ssh'] = path.join(fixturesDir, 'keys');
+        quill.options.directories['cache'] = path.join(fixturesDir, 'cache');
+        quill.options.directories['install'] = path.join(fixturesDir, 'installed');
+      }
+      
       // Pad the output slightly
       console.log('');
-      
-      //
-      // If there is a setup function then call it
-      //
-      if (setupFn) {
-        setupFn();
-      }
       
       //
       // Execute the target command and assert that no error
       // was returned.
       //
-      quill.start(function () {
-        // Pad the output slightly
-        console.log('');
-        that.callback.apply(that, arguments);
-      });
+      function startQuill() {
+        quill.start(function () {
+          // Pad the output slightly
+          console.log('');
+          that.callback.apply(that, arguments);
+        });
+      }
+      
+      //
+      // If there is a setup function then call it
+      // and start quill
+      //
+      if (setupFn) {
+        if (setupFn.length) {
+          return setupFn.apply(this, [startQuill]);
+        }
+        
+        setupFn.call(this);
+      }
+      
+      startQuill();
     }
   };
 

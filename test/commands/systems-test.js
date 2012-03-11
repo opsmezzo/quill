@@ -11,10 +11,12 @@ var assert = require('assert'),
     nock = require('nock'),
     vows = require('vows'),
     macros = require('../helpers/macros'),
+    mock = require('../helpers/mock'),
     quill = require('../../lib/quill');
 
 var shouldQuillOk = macros.shouldQuillOk,
-    systemsDir = path.join(__dirname, '..', 'fixtures', 'systems');
+    systemsDir = path.join(__dirname, '..', 'fixtures', 'systems'),
+    startDir = process.cwd();
 
 //
 // Remove any existing tarballs for idempotency.
@@ -26,6 +28,15 @@ fs.readdirSync(systemsDir).filter(function (file) {
   catch (err) { }
 });
 
+function assertScriptOutput(actual, expected) {
+  assert.isObject(actual);
+  assert.equal(actual.name, expected);
+  assert.equal(actual.data, fs.readFileSync(
+    path.join(systemsDir, expected, 'files', expected + '.txt'),
+    'utf8'
+  ));
+}
+
 //
 // Helper function which asserts that the context creates
 // the target `tarball`.
@@ -35,6 +46,10 @@ function shouldPackage(tarball) {
     'should create the specified tarball',
     function (_, err) {
       assert.ok(path.existsSync(path.join(systemsDir, tarball)));
+      //
+      // Change back to the starting directory
+      //
+      process.chdir(startDir);
     },
     function setup() {
       //
@@ -78,5 +93,34 @@ vows.describe('quill/commands/systems').addBatch({
       })
   })
 }).addBatch({
-  
+  'With an invalid lifecycle action': {
+    'systems lifecycle foobar': shouldQuillOk(
+      'should respond with an error',
+      function (err, _) {
+        assert.match(err.message, /Invalid action/);
+      }
+    )
+  }
+}).addBatch({
+  'install fixture-one': shouldQuillOk(
+    function setup(callback) {
+      var api = nock('http://api.testquill.com'),
+          that = this;
+
+      that.data = [];
+      quill.on(['run', '*', 'stdout'], function (system, data) {
+        that.data.push({
+          name: system.name, 
+          data: '' + data
+        });
+      });
+    
+      mock.systems.local(api, callback);
+    },
+    'should run the specified script',
+    function (err, _) {
+      assert.isNull(err);
+      assertScriptOutput(this.data[0], 'fixture-one');
+    }
+  )
 }).export(module);
