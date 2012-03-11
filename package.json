@@ -19,7 +19,7 @@
     "flatiron": "0.1.13",
     "flatiron-cli-config": "0.1.1",
     "flatiron-cli-users": "0.1.1",
-    "fstream": "0.1.12",
+    "fstream": "0.1.13",
     "graceful-fs": "1.1.5",
     "minimatch": "0.2.0",
     "pkginfo": "0.2.2",

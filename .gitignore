@@ -6,6 +6,6 @@ test/fixtures/untar/*
 !test/fixtures/untar/.gitkeep
 test/fixtures/cache/*
 !test/fixtures/cache/.gitkeep
-test/fixtures/install/*
-!test/fixtures/install/.gitkeep
+test/fixtures/installed/*
+!test/fixtures/installed/.gitkeep
 .DS_Store
