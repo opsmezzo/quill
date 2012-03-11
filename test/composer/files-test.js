@@ -51,7 +51,7 @@ vows.describe('quill/composer/files').addBatch({
           
           ['files/hello-world.txt',
            'files',
-           'scripts/bootstrap.sh',
+           'scripts/install.sh',
            'scripts',
            'system.json'].forEach(function (file) {
              assert.notEqual(files.indexOf(file), -1);

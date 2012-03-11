@@ -44,7 +44,7 @@ vows.describe('quill/composer/lifecycle').addBatch(
           that.data = data.toString();
         })
         
-        quill.composer.runOne('bootstrap', {
+        quill.composer.runOne('install', {
           path: path.join(systemsDir, 'fixture-one')
         }, this.callback);
       },
@@ -73,7 +73,7 @@ vows.describe('quill/composer/lifecycle').addBatch(
         });
         
         mock.systems.local(api, function () {        
-          quill.composer.run('bootstrap', 'hello-world', that.callback);
+          quill.composer.run('install', 'hello-world', that.callback);
         });
       },
       "should run the specified scripts": function (err, systems) {

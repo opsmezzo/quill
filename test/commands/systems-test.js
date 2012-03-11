@@ -73,7 +73,7 @@ vows.describe('quill/commands/systems').addBatch({
           },
           runlist: ['ubuntu-base'],
           files: ['test-config.json'],
-          scripts: ['bootstrap.sh', 'image.sh']
+          scripts: ['install.sh', 'configure.sh']
         }
       })
   })
