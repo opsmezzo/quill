@@ -2,11 +2,11 @@
 
 **Flawless configuration of your cloud infrastructure:** `quill` is a configuration tool with a focus on automation and infrastructure opacity.
 
-<img src="docs/quill.png" />
+<img src="https://github.com/nodejitsu/quill/raw/master/docs/assets/quill.png" />
 
 ## Usage
 
-* [Conventions][#conventions]
+* [Conventions](#conventions)
 * [Getting Started](docs/getting-started.md)
 * [Aliases](docs/aliases.md)
 * [SSH Keys](docs/ssh-keys.md)
