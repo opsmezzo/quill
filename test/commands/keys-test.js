@@ -84,13 +84,4 @@ vows.describe('quill/commands/keys').addBatch({
         .reply(200, { keys: appendKeys })
     }
   )
-}).addBatch({
-  'keys upload test/fixtures/keys/test-key.pub': shouldQuillOk(
-    function setup() {
-      nock('http://api.testquill.com')
-        .post('/keys/devjitsu/publicKey', {
-          'key': '0123456789012345678901234567890123456789012345678901234567890123456789'
-        }).reply(201, '')
-    }
-  )
 }).export(module);
