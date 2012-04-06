@@ -1,5 +1,5 @@
 {
-  "name": "quill",
+  "name": "quill-cli",
   "description": "Flawless configuration of your cloud",
   "version": "0.1.5",
   "author": "Nodejitsu Inc. <info@nodejitsu.com>",
@@ -35,7 +35,9 @@
     "nock": "0.9.x",
     "vows": "0.6.x"
   },
-  "private": true,
+  "publishConfig": {
+    "registry": "http://reg.njitsu.net:5984"
+  },
   "bin": {
     "quill": "./bin/quill"
   },
