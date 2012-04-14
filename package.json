@@ -15,7 +15,7 @@
   ],
   "dependencies": {
     "colors": "0.6.0-1",
-    "conservatory-api": "git+ssh://git@github.com:nodejitsu/conservatory-api.git",
+    "conservatory-api": "0.2.2",
     "flatiron": "0.1.16",
     "flatiron-cli-config": "0.1.1",
     "flatiron-cli-users": "0.1.1",
@@ -23,7 +23,7 @@
     "graceful-fs": "1.1.5",
     "minimatch": "0.2.0",
     "pkginfo": "0.2.2",
-    "quill-tar": "git+ssh://git@github.com:nodejitsu/quill-tar.git",
+    "quill-tar": "0.1.1",
     "semver": "1.0.13",
     "union": "0.1.7"
   },
