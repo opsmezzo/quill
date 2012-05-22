@@ -43,7 +43,13 @@ function assertUninstalled(name) {
 vows.describe('quill/composer/installed').addBatch(
   macros.shouldInit(function () {
     try {
-      rimraf.sync(installDir);
+      fs.readdirSync(installDir)
+        .filter(function (file) {
+          return file !== '.gitkeep'
+        })
+        .forEach(function (file) {
+          rimraf.sync(path.join(installDir, file));
+        });
     }
     catch (ex) {
       console.dir(ex);
