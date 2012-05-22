@@ -29,6 +29,24 @@ function assertScriptOutput(actual, expected) {
   ));
 }
 
+function assertHistory(action, system) {
+  var details = helpers.latestHistory(system, 2),
+      history = details.history,
+      keys = details.keys;
+  
+  assert.deepEqual(history[keys[0]], {
+    action: action,
+    version: system.version,
+    time: 'start'
+  });
+  
+  assert.deepEqual(history[keys[1]], {
+    action: action,
+    version: system.version,
+    time: 'end'
+  });
+}
+
 vows.describe('quill/composer/lifecycle').addBatch(
   macros.shouldInit(function () {
     quill.config.set('directories:cache', cacheDir);
@@ -45,6 +63,9 @@ vows.describe('quill/composer/lifecycle').addBatch(
         })
         
         quill.composer.runOne('install', {
+          name: 'fixture-one',
+          version: '0.0.0',
+          history: {},
           path: path.join(systemsDir, 'fixture-one')
         }, this.callback);
       },
@@ -54,6 +75,11 @@ vows.describe('quill/composer/lifecycle').addBatch(
           path.join(systemsDir, 'fixture-one', 'files', 'fixture-one.txt'),
           'utf8'
         ));
+        
+        assertHistory('install', {
+          name: 'fixture-one',
+          version: '0.0.0'
+        });
       }
     }
   }
@@ -82,6 +108,11 @@ vows.describe('quill/composer/lifecycle').addBatch(
         assertScriptOutput(this.data[0], 'fixture-one');
         assertScriptOutput(this.data[1], 'fixture-two');
         assertScriptOutput(this.data[2], 'hello-world');
+        
+        assertHistory('install', {
+          name: 'hello-world',
+          version: '0.0.0'
+        });
       }
     }
   }

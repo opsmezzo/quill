@@ -9,6 +9,7 @@ var assert = require('assert'),
     fs = require('fs'),
     path = require('path'),
     common = require('flatiron').common,
+    rimraf = common.rimraf,
     nock = require('nock'),
     vows = require('vows'),
     helpers = require('../helpers'),
@@ -25,15 +26,35 @@ function assertInstalled(system) {
   assert.isString(system.path);
   assert.isTrue(path.existsSync(system.path));
   assert.isTrue(path.existsSync(path.join(system.path, 'system.json')));
+  
+  var details = helpers.latestHistory(system, 1);
+  
+  assert.deepEqual(details.history[details.keys[0]], {
+    version: system.version,
+    action: 'copy'
+  });
 }
 
 function assertUninstalled(name) {
   assert.isTrue(path.existsSync(path.join(installDir, name)));
   assert.isFalse(path.existsSync(path.join(installDir, name, '0.0.0')));
-} 
+}
 
 vows.describe('quill/composer/installed').addBatch(
   macros.shouldInit(function () {
+    try {
+      fs.readdirSync(installDir)
+        .filter(function (file) {
+          return file !== '.gitkeep'
+        })
+        .forEach(function (file) {
+          rimraf.sync(path.join(installDir, file));
+        });
+    }
+    catch (ex) {
+      console.dir(ex);
+    }
+    
     quill.config.set('directories:install', installDir);
   })
 ).addBatch({
