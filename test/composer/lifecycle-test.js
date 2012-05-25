@@ -98,6 +98,7 @@ vows.describe('quill/composer/lifecycle').addBatch(
           });
         });
         
+        helpers.cleanInstalled();
         mock.systems.local(api, function () {        
           quill.composer.run('install', 'hello-world', that.callback);
         });

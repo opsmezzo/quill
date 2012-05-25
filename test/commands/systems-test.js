@@ -8,8 +8,11 @@
 var assert = require('assert'),
     fs = require('fs'),
     path = require('path'),
+    common = require('flatiron').common,
+    rimraf = common.rimraf,
     nock = require('nock'),
     vows = require('vows'),
+    helpers = require('../helpers'),
     macros = require('../helpers/macros'),
     mock = require('../helpers/mock'),
     quill = require('../../lib/quill');
@@ -110,12 +113,15 @@ vows.describe('quill/commands/systems').addBatch({
       that.data = [];
       quill.on(['run', '*', 'stdout'], function (system, data) {
         that.data.push({
-          name: system.name, 
+          name: system.name,
           data: '' + data
         });
       });
-    
+
       mock.systems.local(api, callback);
+
+      try { rimraf.sync(path.join(helpers.dirs.installDir, 'fixture-one')) }
+      catch (ex) { }
     },
     'should run the specified script',
     function (err, _) {

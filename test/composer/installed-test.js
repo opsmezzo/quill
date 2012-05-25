@@ -8,8 +8,6 @@
 var assert = require('assert'),
     fs = require('fs'),
     path = require('path'),
-    common = require('flatiron').common,
-    rimraf = common.rimraf,
     nock = require('nock'),
     vows = require('vows'),
     helpers = require('../helpers'),
@@ -42,19 +40,7 @@ function assertUninstalled(name) {
 
 vows.describe('quill/composer/installed').addBatch(
   macros.shouldInit(function () {
-    try {
-      fs.readdirSync(installDir)
-        .filter(function (file) {
-          return file !== '.gitkeep'
-        })
-        .forEach(function (file) {
-          rimraf.sync(path.join(installDir, file));
-        });
-    }
-    catch (ex) {
-      console.dir(ex);
-    }
-    
+    helpers.cleanInstalled();
     quill.config.set('directories:install', installDir);
   })
 ).addBatch({

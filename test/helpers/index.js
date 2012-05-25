@@ -7,6 +7,8 @@
  
 var fs = require('fs'),
     path = require('path'),
+    common = require('flatiron').common,
+    rimraf = common.rimraf,
     quill = require('../../lib/quill');
 
 //
@@ -24,6 +26,23 @@ exports.init = function (callback) {
   
   quill.init(quill.setup.bind(quill, callback));
 };
+
+exports.cleanInstalled = function () {
+  try {
+    var installDir = exports.dirs.installDir;
+    
+    fs.readdirSync(installDir)
+      .filter(function (file) {
+        return file !== '.gitkeep'
+      })
+      .forEach(function (file) {
+        rimraf.sync(path.join(installDir, file));
+      });
+  }
+  catch (ex) {
+    console.dir(ex);
+  }
+}
 
 exports.latestHistory = function (system, count) {
   var historyFile = path.join(exports.dirs.installDir, system.name, 'history.json'),
