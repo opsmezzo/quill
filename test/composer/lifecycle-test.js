@@ -62,7 +62,7 @@ vows.describe('quill/composer/lifecycle').addBatch(
           that.data = data.toString();
         })
         
-        quill.composer.runOne('install', {
+        quill.composer.runOne('install', [], {
           name: 'fixture-one',
           version: '0.0.0',
           history: {},
