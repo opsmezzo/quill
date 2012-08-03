@@ -2,7 +2,7 @@
 
 **Flawless configuration of your cloud infrastructure:** `quill` is a configuration tool with a focus on automation and infrastructure opacity.
 
-<img src="https://github.com/nodejitsu/quill/raw/master/docs/assets/quill.png" />
+<img src="https://github.com/nodejitsu/enterprise-docs/blob/master/assets/quill.png?raw=true" />
 
 ## Usage
 
