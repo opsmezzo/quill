@@ -27,13 +27,16 @@ exports.init = function (callback) {
   quill.init(quill.setup.bind(quill, callback));
 };
 
-exports.cleanInstalled = function () {
+exports.cleanInstalled = function (systems) {
   try {
     var installDir = exports.dirs.installDir;
     
     fs.readdirSync(installDir)
       .filter(function (file) {
-        return file !== '.gitkeep'
+        if (systems && systems.indexOf(file) === -1) {
+          return false;
+        }
+        return file !== '.gitkeep';
       })
       .forEach(function (file) {
         rimraf.sync(path.join(installDir, file));
