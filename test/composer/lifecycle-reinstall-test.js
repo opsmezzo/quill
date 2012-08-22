@@ -20,6 +20,8 @@ vows.describe('quill/composer/lifecycle/reinstall').addBatch(
   'When using `quill.composer`': {
     'the `run()` method called for the first time': {
       topic: function () {
+        quill.argv.force = true;
+
         var api = nock('http://api.testquill.com'),
             self = this;
 
