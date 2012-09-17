@@ -168,10 +168,10 @@ exports.shouldMakeRunlist = function (args, os) {
     
   return {
     topic: function () {
-      quill.composer.runlist.apply(
-        quill.composer,
-        [args, os, this.callback].filter(Boolean)
-      );
+      quill.composer.runlist({
+        systems: args,
+        os: os
+      }, this.callback);
     },
     "should respond with the correct runlist": function (err, actual) {
       assert.isNull(err);

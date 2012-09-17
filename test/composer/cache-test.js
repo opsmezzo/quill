@@ -103,7 +103,9 @@ vows.describe('quill/composer/cache').addBatch(
             that = this;
         
         mock.systems.local(api, function () {
-          quill.composer.cache.add('hello-world', that.callback);
+          quill.composer.cache.add({
+            systems: ['hello-world']
+          }, that.callback);
         });
       },
       "add the system and all dependencies to the cache": function (err, versions) {

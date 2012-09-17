@@ -5,7 +5,8 @@
  *
  */
  
-var fs = require('fs'),
+var assert = require('assert'),
+    fs = require('fs'),
     path = require('path'),
     common = require('flatiron').common,
     rimraf = common.rimraf,
@@ -55,4 +56,13 @@ exports.latestHistory = function (system, count) {
     history: history,
     keys: Object.keys(history).slice(-1 * count)
   };
+};
+
+exports.assertScriptOutput = function (actual, expected) {
+  assert.isObject(actual);
+  assert.equal(actual.name, expected);
+  assert.equal(actual.data, fs.readFileSync(
+    path.join(exports.dirs.systemsDir, expected, 'files', expected + '.txt'),
+    'utf8'
+  ));
 };
