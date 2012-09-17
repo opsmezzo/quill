@@ -1,0 +1,11 @@
+{
+  "name": "ubuntu-dep",
+  "version": "0.0.0",
+  "description": "Single Ubuntu dependency",
+  "author": "Nodejitsu Inc <info@nodejitsu.com>",
+  "os": {
+    "ubuntu": {
+      "fixture-one": "0.0.0"
+    }
+  }
+}
