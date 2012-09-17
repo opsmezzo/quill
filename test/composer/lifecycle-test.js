@@ -20,15 +20,6 @@ var fixturesDir = path.join(__dirname, '..', 'fixtures'),
     installDir = path.join(fixturesDir, 'installed'),
     cacheDir = path.join(fixturesDir, 'cache');
 
-function assertScriptOutput(actual, expected) {
-  assert.isObject(actual);
-  assert.equal(actual.name, expected);
-  assert.equal(actual.data, fs.readFileSync(
-    path.join(systemsDir, expected, 'files', expected + '.txt'),
-    'utf8'
-  ));
-}
-
 function assertHistory(action, system) {
   var details = helpers.latestHistory(system, 2),
       history = details.history,
@@ -106,9 +97,9 @@ vows.describe('quill/composer/lifecycle').addBatch(
       "should run the specified scripts": function (err, systems) {
         assert.isNull(err);
                 
-        assertScriptOutput(this.data[0], 'fixture-one');
-        assertScriptOutput(this.data[1], 'fixture-two');
-        assertScriptOutput(this.data[2], 'hello-world');
+        helpers.assertScriptOutput(this.data[0], 'fixture-one');
+        helpers.assertScriptOutput(this.data[1], 'fixture-two');
+        helpers.assertScriptOutput(this.data[2], 'hello-world');
         
         assertHistory('install', {
           name: 'hello-world',
