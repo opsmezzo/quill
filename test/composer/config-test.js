@@ -7,8 +7,15 @@ var assert = require('assert'),
     mock = require('../helpers/mock'),
     quill = require('../../lib/quill');
 
+var fixturesDir = path.join(__dirname, '..', 'fixtures'),
+    installDir = path.join(fixturesDir, 'installed'),
+    cacheDir = path.join(fixturesDir, 'cache');
+
 vows.describe('quill/composer/lifecycle/reinstall').addBatch(
-  macros.shouldInit()
+  macros.shouldInit(function () {
+    quill.config.set('directories:cache', cacheDir);
+    quill.config.set('directories:install', installDir);
+  })
 ).addBatch({
   'When using `quill.composer.config`': {
     'the `getEnv()` method': {
@@ -41,6 +48,47 @@ vows.describe('quill/composer/lifecycle/reinstall').addBatch(
           quill_foo: 'baz',
           quill_bar: 'lol',
           quill_nested_boo: 'faz'
+        });
+      }
+    }
+  }
+}).addBatch({
+  'When using `quill.composer`': {
+    'the `run()` method with config specified': {
+      topic: function () {
+        var api = nock('http://api.testquill.com'),
+            self = this;
+
+        api
+          .get('/config/test-config')
+          .reply(200, {
+            config: {
+              resource: 'Config',
+              name: 'test-config',
+              settings: {
+                foo: 'bazz',
+                baz: 'foo'
+              }
+            }
+          });
+
+        quill.argv.config = ['test-config', 'foo=bar'];
+
+        self.data = '';
+        quill.on(['run', '*', 'stdout'], function (system, data) {
+          self.data += data.toString();
+        });
+
+        helpers.cleanInstalled(['config']);
+        mock.systems.local(api, function () {
+          quill.composer.run('install', 'config', self.callback);
+        });
+      },
+      'should output correct data': function (err, _) {
+        assert.isNull(err);
+        assert.deepEqual(JSON.parse(this.data), {
+          quill_foo: 'bar',
+          quill_baz: 'foo'
         });
       }
     }
