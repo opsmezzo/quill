@@ -108,4 +108,22 @@ vows.describe('quill/composer/lifecycle').addBatch(
       }
     }
   }
-}).export(module);
+}).addBatch({
+  "When using quill.composer": {
+    "the run() method": {
+      topic: function () {
+        var api = nock('http://api.testquill.com'),
+            that = this;
+
+        mock.systems.local(api, function () {
+          quill.composer.run('install', 'invalid-dep', that.callback);
+        });
+      },
+      "should run the specified scripts": function (err, systems) {
+        assert(err);
+        assert.equal(err.message, 'Could not resolve dependency: fixture-one@1.0.x');
+      }
+    }
+  }
+}
+).export(module);
