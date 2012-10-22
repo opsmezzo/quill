@@ -90,6 +90,8 @@ vows.describe('quill/composer/config').addBatch(
           quill_foo: 'bar',
           quill_baz: 'foo'
         });
+
+        delete quill.argv.config;
       }
     }
   }
