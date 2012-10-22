@@ -63,4 +63,29 @@ vows.describe('quill/composer/lifecycle/reinstall').addBatch(
       }
     }
   }
-}).export(module);
+}).addBatch({
+  'When using `quill.composer`': {
+    'the `run()` method called for the third time with `--force` disabled': {
+      topic: function () {
+        var api = nock('http://api.testquill.com'),
+            self = this;
+
+        quill.argv.force = false;
+
+        self.data = '';
+        quill.on(['run', '*', 'stdout'], function (system, data) {
+          self.data += data.toString();
+        });
+
+        mock.systems.local(api, function () {
+          quill.composer.run('install', 'uninstall', self.callback);
+        });
+      },
+      'shouldn\'t do anything': function (err, _) {
+        assert.isNull(err);
+        assert.equal(this.data, '');
+      }
+    }
+  }
+}
+).export(module);
