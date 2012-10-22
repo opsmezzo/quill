@@ -11,7 +11,7 @@ var fixturesDir = path.join(__dirname, '..', 'fixtures'),
     installDir = path.join(fixturesDir, 'installed'),
     cacheDir = path.join(fixturesDir, 'cache');
 
-vows.describe('quill/composer/lifecycle/reinstall').addBatch(
+vows.describe('quill/composer/config').addBatch(
   macros.shouldInit(function () {
     quill.config.set('directories:cache', cacheDir);
     quill.config.set('directories:install', installDir);
