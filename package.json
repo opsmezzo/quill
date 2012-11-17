@@ -22,6 +22,7 @@
     "fstream": "0.1.13",
     "graceful-fs": "1.1.5",
     "minimatch": "0.2.0",
+    "mustache": "0.7.0",
     "pkginfo": "0.2.2",
     "quill-tar": "0.1.1",
     "semver": "1.0.13",
