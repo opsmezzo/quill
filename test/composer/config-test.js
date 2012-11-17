@@ -87,8 +87,11 @@ vows.describe('quill/composer/config').addBatch(
       'should output correct data': function (err, _) {
         assert.isNull(err);
         assert.deepEqual(JSON.parse(this.data), {
-          quill_foo: 'bar',
-          quill_baz: 'foo'
+          env: {
+            quill_foo: 'bar',
+            quill_baz: 'foo'
+          },
+          file: 'foo is bar\n'
         });
 
         delete quill.argv.config;
