@@ -129,4 +129,12 @@ vows.describe('quill/commands/systems').addBatch({
       assertScriptOutput(this.data[0], 'fixture-one');
     }
   )
+}).addBatch({
+  'unpublish fixture-one': shouldQuillOk(
+    function setup() {
+      nock('http://api.testquill.com')
+        .delete('/systems/fixture-one')
+        .reply(200);
+    }
+  )
 }).export(module);
