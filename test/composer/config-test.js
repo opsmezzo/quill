@@ -67,7 +67,10 @@ vows.describe('quill/composer/config').addBatch(
               name: 'test-config',
               settings: {
                 foo: 'bazz',
-                baz: 'foo'
+                baz: 'foo',
+                nested: {
+                  val: 42
+                }
               }
             }
           });
@@ -89,9 +92,13 @@ vows.describe('quill/composer/config').addBatch(
         assert.deepEqual(JSON.parse(this.data), {
           env: {
             quill_foo: 'bar',
-            quill_baz: 'foo'
+            quill_baz: 'foo',
+            quill_nested_val: 42
           },
-          file: 'foo is bar\n'
+          file: [
+            'foo is bar',
+            'This should be an object: {"val":42}\n'
+          ].join('\n')
         });
 
         delete quill.argv.config;
