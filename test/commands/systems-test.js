@@ -48,7 +48,7 @@ function shouldPackage(tarball) {
   return shouldQuillOk(
     'should create the specified tarball',
     function (_, err) {
-      assert.ok(path.existsSync(path.join(systemsDir, tarball)));
+      assert.ok(fs.existsSync(path.join(systemsDir, tarball)));
       //
       // Change back to the starting directory
       //

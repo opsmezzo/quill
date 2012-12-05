@@ -22,8 +22,8 @@ var fixturesDir = path.join(__dirname, '..', 'fixtures'),
 
 function assertInstalled(system) {
   assert.isString(system.path);
-  assert.isTrue(path.existsSync(system.path));
-  assert.isTrue(path.existsSync(path.join(system.path, 'system.json')));
+  assert.isTrue(fs.existsSync(system.path));
+  assert.isTrue(fs.existsSync(path.join(system.path, 'system.json')));
   
   var details = helpers.latestHistory(system, 1);
   
@@ -34,8 +34,8 @@ function assertInstalled(system) {
 }
 
 function assertUninstalled(name) {
-  assert.isTrue(path.existsSync(path.join(installDir, name)));
-  assert.isFalse(path.existsSync(path.join(installDir, name, '0.0.0')));
+  assert.isTrue(fs.existsSync(path.join(installDir, name)));
+  assert.isFalse(fs.existsSync(path.join(installDir, name, '0.0.0')));
 }
 
 vows.describe('quill/composer/installed').addBatch(
