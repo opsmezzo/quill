@@ -57,6 +57,20 @@ trees['single-dep'] = {
 };
 
 //
+// Dependency with an implied runlist but
+// that runlist is empty.
+//
+trees['empty-runlist'] = {
+  tree: {
+    'empty-runlist@0.1.0': {
+      'a@0.0.1': null
+    }
+  },
+  list: ['a@0.0.1', 'empty-runlist@0.1.0']
+};
+
+
+//
 // Dependency with OS specific runlist
 //
 trees['single-ubuntu-dep'] = {

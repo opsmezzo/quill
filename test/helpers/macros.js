@@ -184,6 +184,7 @@ exports.shouldAnalyzeDeps = function (fn) {
   return {
     "with a no dependencies": fn('no-deps'),
     "with a single dependency (implicit runlist)": fn('single-dep'),
+    "with a single dependency (empty runlist)": fn('empty-runlist'),
     "with multiple dependencies": fn('depends-on-a-b'),
     "with a dependency in a dependency": fn('dep-in-dep'),
     "with a single OS dependency": fn('single-ubuntu-dep', 'ubuntu')

@@ -25,6 +25,18 @@ var systems = module.exports = [
     }
   },
   {
+    name: 'empty-runlist',
+    version: '0.1.0',
+    versions: {
+      '0.1.0': {
+        runlist: [],
+        dependencies: {
+          a: '0.0.1'
+        }
+      }
+    }
+  },
+  {
     name: 'depends-on-a-b',
     version: '0.1.2',
     versions: {
