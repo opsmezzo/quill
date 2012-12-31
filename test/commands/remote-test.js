@@ -78,16 +78,18 @@ vows.describe('quill/commands/remote').addBatch({
 }).addBatch({
   'remote merge test-config test/fixtures/configs/test-config.json': shouldQuillOk(function setup() {
     var original = {
-      config: {
-        some: 'modification'
-      },
-      'I': ['just', 'merged', 'you']
+      settings: {
+        config: {
+          some: 'modification'
+        },
+        'I': ['just', 'merged', 'you']
+      }
     };
 
     var merged = common.clone(original);
 
     Object.keys(testConfig).forEach(function (key) {
-      merged[key] = testConfig[key];
+      merged.settings[key] = testConfig[key];
     });
 
     nock('http://api.testquill.com')
@@ -95,7 +97,7 @@ vows.describe('quill/commands/remote').addBatch({
       .reply(200, { config: original })
       .delete('/config/test-config')
       .reply(200)
-      .post('/config/test-config', merged)
+      .post('/config/test-config', merged.settings)
       .reply(201);
   })
 }).export(module);
