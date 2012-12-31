@@ -68,6 +68,12 @@ vows.describe('quill/commands/remote').addBatch({
       .reply(200);
   })
 }).addBatch({
+  'remote set test-config very:nested:key value': shouldQuillOk(function setup() {
+    nock('http://api.testquill.com')
+      .put('/config/test-config/very/nested/key', '"value"')
+      .reply(200);
+  })
+}).addBatch({
   'remote clear test-config key': shouldQuillOk(function setup() {
     nock('http://api.testquill.com')
       .delete('/config/test-config/key')
