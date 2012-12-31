@@ -1,4 +1,5 @@
 var assert = require('assert'),
+    os = require('os'),
     path = require('path'),
     nock = require('nock'),
     vows = require('vows'),
@@ -44,10 +45,41 @@ vows.describe('quill/composer/config').addBatch(
       },
       'should return correct config': function (err, config) {
         assert(!err);
-        assert.deepEqual(config, {
+
+        var expected = {
           quill_foo: 'baz',
           quill_bar: 'lol',
           quill_nested_boo: 'faz'
+        };
+
+        Object.keys(expected).forEach(function (key) {
+          assert.isString(expected[key], config[key]);
+          assert.equal(expected[key], config[key]);
+        });
+      }
+    }
+  }
+}).addBatch({
+  'When using `quill.composer`': {
+    'the `osConfig()` method': {
+      topic: quill.composer.config.osConfig(),
+      "should have the correct values": function (config) {
+        assert.isObject(config.os);
+
+        ['hostname',
+        'type',
+        'platform',
+        'arch',
+        'release'].forEach(function (key) {
+          assert.equal(config.os[key], os[key]());
+        });
+
+        assert.equal(config.os.cpus, os.cpus().length);
+        assert.isObject(config.os.networkInterfaces);
+        Object.keys(config.os.networkInterfaces).forEach(function (name) {
+          assert.isObject(config.os.networkInterfaces[name]);
+          assert.isArray(config.os.networkInterfaces[name].ipv4);
+          assert.isArray(config.os.networkInterfaces[name].ipv6);
         });
       }
     }
@@ -89,7 +121,9 @@ vows.describe('quill/composer/config').addBatch(
       },
       'should output correct data': function (err, _) {
         assert.isNull(err);
-        assert.deepEqual(JSON.parse(this.data), {
+
+        var config = JSON.parse(this.data);
+        var expected = {
           env: {
             quill_foo: 'bar',
             quill_baz: 'foo',
@@ -99,6 +133,11 @@ vows.describe('quill/composer/config').addBatch(
             'foo is bar',
             'This should be an object: {\n  "val": 42\n}\n'
           ].join('\n')
+        };
+
+        assert.equal(expected.file, config.file);
+        Object.keys(expected.env).forEach(function (key) {
+          assert.equal(expected.env[key], config.env[key]);
         });
 
         delete quill.argv.config;
