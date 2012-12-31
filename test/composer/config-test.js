@@ -97,7 +97,7 @@ vows.describe('quill/composer/config').addBatch(
           },
           file: [
             'foo is bar',
-            'This should be an object: {"val":42}\n'
+            'This should be an object: {\n  "val": 42\n}\n'
           ].join('\n')
         });
 
