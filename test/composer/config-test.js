@@ -132,9 +132,15 @@ vows.describe('quill/composer/config').addBatch(
               settings: {
                 foo: 'bazz',
                 baz: 'foo',
+                index: 1,
                 nested: {
-                  val: 42
-                }
+                  val: 42,
+                  foo: 42
+                },
+                list: [
+                  'first',
+                  'second'
+                ]
               }
             }
           });
@@ -157,14 +163,25 @@ vows.describe('quill/composer/config').addBatch(
           env: {
             quill_foo: 'bar',
             quill_baz: 'foo',
+            quill_index: 1,
             quill_nested_val: 42,
+            quill_nested_foo: 42,
+            quill_list_0: 'first',
+            quill_list_1: 'second',
             q_foo: 'bar',
             q_baz: 'foo',
-            q_nested_val: 42
+            q_index: 1,
+            q_nested_val: 42,
+            q_nested_foo: 42,
+            q_list_0: 'first',
+            q_list_1: 'second'
           },
           file: [
             'foo is bar',
-            'This should be an object: {\n  "val": 42\n}\n'
+            'This should be an object: {\n  "val": 42,\n  "foo": 42\n}',
+            'This should template inside out: 42',
+            'This should index into a list: first',
+            'This should index into a list inside out: second'
           ].join('\n')
         };
 
