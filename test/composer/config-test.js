@@ -8,7 +8,8 @@ var assert = require('assert'),
     mock = require('../helpers/mock'),
     quill = require('../../lib/quill');
 
-var fixturesDir = path.join(__dirname, '..', 'fixtures'),
+var shouldQuillOk = macros.shouldQuillOk,
+    fixturesDir = path.join(__dirname, '..', 'fixtures'),
     installDir = path.join(fixturesDir, 'installed'),
     cacheDir = path.join(fixturesDir, 'cache');
 
@@ -85,9 +86,40 @@ vows.describe('quill/composer/config').addBatch(
     }
   }
 }).addBatch({
-  'When using `quill.composer`': {
-    'the `run()` method with config specified': {
-      topic: function () {
+  "With missing config values": {
+    "install config": shouldQuillOk(
+      function setup(callback) {
+        var api = nock('http://api.testquill.com'),
+            self = this;
+
+        api
+          .get('/config/test-config')
+          .reply(200, {
+            config: {
+              resource: 'Config',
+              name: 'test-config',
+              settings: {
+                foo: 'bazz',
+                baz: 'foo'
+              }
+            }
+          });
+
+        quill.argv.config = ['test-config'];
+        helpers.cleanInstalled(['config']);
+        mock.systems.local(api, callback);
+      },
+      'should output correct data',
+      function (err, _) {
+        assert.isObject(err);
+        assert.match(err.message, /Missing configuration value: nested/);
+      }
+    )
+  }
+}).addBatch({
+  "With all config values": {
+    "install config": shouldQuillOk(
+      function setup(callback) {
         var api = nock('http://api.testquill.com'),
             self = this;
 
@@ -108,18 +140,16 @@ vows.describe('quill/composer/config').addBatch(
           });
 
         quill.argv.config = ['test-config', 'foo=bar'];
-
         self.data = '';
         quill.on(['run', '*', 'stdout'], function (system, data) {
           self.data += data.toString();
         });
 
         helpers.cleanInstalled(['config']);
-        mock.systems.local(api, function () {
-          quill.composer.run('install', 'config', self.callback);
-        });
+        mock.systems.local(api, callback);
       },
-      'should output correct data': function (err, _) {
+      'should output correct data',
+      function (err, _) {
         assert.isNull(err);
 
         var config = JSON.parse(this.data);
@@ -145,6 +175,6 @@ vows.describe('quill/composer/config').addBatch(
 
         delete quill.argv.config;
       }
-    }
+    )
   }
 }).export(module);
