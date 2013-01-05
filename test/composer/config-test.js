@@ -127,7 +127,10 @@ vows.describe('quill/composer/config').addBatch(
           env: {
             quill_foo: 'bar',
             quill_baz: 'foo',
-            quill_nested_val: 42
+            quill_nested_val: 42,
+            q_foo: 'bar',
+            q_baz: 'foo',
+            q_nested_val: 42
           },
           file: [
             'foo is bar',

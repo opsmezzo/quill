@@ -2,7 +2,7 @@
 var fs = require('fs');
 var env = {};
 Object.keys(process.env).forEach(function (key) {
-  if (key.match(/^quill_/)) {
+  if (key.match(/^quill_|q_/)) {
     env[key] = process.env[key];
   }
 });
