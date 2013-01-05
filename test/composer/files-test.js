@@ -49,35 +49,6 @@ vows.describe('quill/composer/files').addBatch({
           assert.include(system.templates, 'template.conf');
         }
       }
-    },
-    "the listFiles() method": {
-      "with a system containing .quillignore": shouldIgnore('quillignore', /quill-ignored/),
-      "with a system containing .gitignore": shouldIgnore('gitignore', /git-ignored/),
-      "with ubuntu-base": {
-        topic: function () {
-          var target = this.target = path.join(systemsDir, 'hello-world');
-
-          quill.composer.listFiles(target, { path: target }, this.callback);
-        },
-        "should have the correct files": function (err, files) {
-          assert.isNull(err);
-          
-          var that = this;
-          files = files.map(function (file) {
-            return file.replace(that.target, '').slice(1);
-          }).filter(Boolean);
-          
-          ['files/hello-world.txt',
-           'files',
-           'scripts/install.sh',
-           'scripts',
-           'templates',
-           'templates/template.conf',
-           'system.json'].forEach(function (file) {
-             assert.notEqual(files.indexOf(file), -1);
-           })
-        }
-      }
     }
   }
 }).export(module);

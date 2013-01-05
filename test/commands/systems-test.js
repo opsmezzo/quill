@@ -64,9 +64,9 @@ function shouldPackage(tarball) {
 }
 
 vows.describe('quill/commands/systems').addBatch({
-  'pack fixture-one': shouldPackage('fixture-one.tgz')
+  'pack fixture-one': shouldPackage('fixture-one-0.0.0.tgz')
 }).addBatch({
-  'systems pack fixture-two': shouldPackage('fixture-two.tgz')
+  'systems pack fixture-two': shouldPackage('fixture-two-0.0.0.tgz')
 }).addBatch({
   'pack noexist': shouldQuillOk(
     'should respond with ENOENT',

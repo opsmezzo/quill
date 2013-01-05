@@ -23,7 +23,7 @@
     "graceful-fs": "1.1.14",
     "minimatch": "0.2.9",
     "pkginfo": "0.2.2",
-    "quill-tar": "0.1.1",
+    "quill-tar": "0.2.1",
     "rget": "1.0.0",
     "semver": "1.1.1",
     "union": "0.3.6",
