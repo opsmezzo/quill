@@ -8,5 +8,5 @@ Object.keys(process.env).forEach(function (key) {
 });
 process.stdout.write(JSON.stringify({
   env: env,
-  file: fs.readFileSync('../files/template-me.txt', 'utf8')
+  file: fs.readFileSync('../templates/template-me.txt', 'utf8')
 }));
