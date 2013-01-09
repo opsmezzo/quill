@@ -1,2 +1,0 @@
-foo is {{ foo }}
-This should be an object: {{ nested }}

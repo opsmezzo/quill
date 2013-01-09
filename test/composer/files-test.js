@@ -32,30 +32,21 @@ function shouldIgnore(system, pattern) {
 
 vows.describe('quill/composer/files').addBatch({
   "When using quill.composer": {
-    "the listFiles() method": {
-      "with a directory containing .quillignore": shouldIgnore('quillignore', /quill-ignored/),
-      "with a directory containing .gitignore": shouldIgnore('gitignore', /git-ignored/),
-      "with ubuntu-base": {
+    "the readJson() method": {
+      "with a system containing /template": {
         topic: function () {
           var target = this.target = path.join(systemsDir, 'hello-world');
-
-          quill.composer.listFiles(target, { path: target }, this.callback);
+          quill.composer.readJson(target, this.callback);
         },
-        "should have the correct files": function (err, files) {
+        "should respond with the correct system.json": function (err, system) {
           assert.isNull(err);
-          
-          var that = this;
-          files = files.map(function (file) {
-            return file.replace(that.target, '').slice(1);
-          }).filter(Boolean);
-          
-          ['files/hello-world.txt',
-           'files',
-           'scripts/install.sh',
-           'scripts',
-           'system.json'].forEach(function (file) {
-             assert.notEqual(files.indexOf(file), -1);
-           })
+          assert.isObject(system);
+          assert.isArray(system.files);
+          assert.include(system.files, 'hello-world.txt');
+          assert.isArray(system.scripts);
+          assert.include(system.scripts, 'install.sh');
+          assert.isArray(system.templates);
+          assert.include(system.templates, 'template.conf');
         }
       }
     }

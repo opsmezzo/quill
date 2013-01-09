@@ -8,7 +8,8 @@ var assert = require('assert'),
     mock = require('../helpers/mock'),
     quill = require('../../lib/quill');
 
-var fixturesDir = path.join(__dirname, '..', 'fixtures'),
+var shouldQuillOk = macros.shouldQuillOk,
+    fixturesDir = path.join(__dirname, '..', 'fixtures'),
     installDir = path.join(fixturesDir, 'installed'),
     cacheDir = path.join(fixturesDir, 'cache');
 
@@ -85,9 +86,40 @@ vows.describe('quill/composer/config').addBatch(
     }
   }
 }).addBatch({
-  'When using `quill.composer`': {
-    'the `run()` method with config specified': {
-      topic: function () {
+  "With missing config values": {
+    "install config": shouldQuillOk(
+      function setup(callback) {
+        var api = nock('http://api.testquill.com'),
+            self = this;
+
+        api
+          .get('/config/test-config')
+          .reply(200, {
+            config: {
+              resource: 'Config',
+              name: 'test-config',
+              settings: {
+                foo: 'bazz',
+                baz: 'foo'
+              }
+            }
+          });
+
+        quill.argv.config = ['test-config'];
+        helpers.cleanInstalled(['config']);
+        mock.systems.local(api, callback);
+      },
+      'should output correct data',
+      function (err, _) {
+        assert.isObject(err);
+        assert.match(err.message, /Missing configuration value: nested/);
+      }
+    )
+  }
+}).addBatch({
+  "With all config values": {
+    "install config": shouldQuillOk(
+      function setup(callback) {
         var api = nock('http://api.testquill.com'),
             self = this;
 
@@ -100,26 +132,30 @@ vows.describe('quill/composer/config').addBatch(
               settings: {
                 foo: 'bazz',
                 baz: 'foo',
+                index: 1,
                 nested: {
-                  val: 42
-                }
+                  val: 42,
+                  foo: 42
+                },
+                list: [
+                  'first',
+                  'second'
+                ]
               }
             }
           });
 
         quill.argv.config = ['test-config', 'foo=bar'];
-
         self.data = '';
         quill.on(['run', '*', 'stdout'], function (system, data) {
           self.data += data.toString();
         });
 
         helpers.cleanInstalled(['config']);
-        mock.systems.local(api, function () {
-          quill.composer.run('install', 'config', self.callback);
-        });
+        mock.systems.local(api, callback);
       },
-      'should output correct data': function (err, _) {
+      'should output correct data',
+      function (err, _) {
         assert.isNull(err);
 
         var config = JSON.parse(this.data);
@@ -127,11 +163,25 @@ vows.describe('quill/composer/config').addBatch(
           env: {
             quill_foo: 'bar',
             quill_baz: 'foo',
-            quill_nested_val: 42
+            quill_index: 1,
+            quill_nested_val: 42,
+            quill_nested_foo: 42,
+            quill_list_0: 'first',
+            quill_list_1: 'second',
+            q_foo: 'bar',
+            q_baz: 'foo',
+            q_index: 1,
+            q_nested_val: 42,
+            q_nested_foo: 42,
+            q_list_0: 'first',
+            q_list_1: 'second'
           },
           file: [
             'foo is bar',
-            'This should be an object: {\n  "val": 42\n}\n'
+            'This should be an object: {\n  "val": 42,\n  "foo": 42\n}',
+            'This should template inside out: 42',
+            'This should index into a list: first',
+            'This should index into a list inside out: second'
           ].join('\n')
         };
 
@@ -142,6 +192,6 @@ vows.describe('quill/composer/config').addBatch(
 
         delete quill.argv.config;
       }
-    }
+    )
   }
 }).export(module);
