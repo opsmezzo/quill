@@ -19,48 +19,6 @@ vows.describe('quill/composer/config').addBatch(
     quill.config.set('directories:install', installDir);
   })
 ).addBatch({
-  'When using `quill.composer.config`': {
-    'the `getEnv()` method': {
-      topic: function () {
-        nock('http://api.testquill.com')
-          .get('/config/first')
-          .reply(200, {
-            config: {
-              resource: 'Config',
-              name: 'first',
-              settings: {
-                foo: 'bar',
-                nested: {
-                  boo: 'faz'
-                }
-              }
-            }
-          });
-
-        quill.argv.config = ['first', 'foo=baz'];
-        quill.composer.config.getEnv({
-          config: {
-            bar: 'lol'
-          }
-        }, this.callback);
-      },
-      'should return correct config': function (err, config) {
-        assert(!err);
-
-        var expected = {
-          quill_foo: 'baz',
-          quill_bar: 'lol',
-          quill_nested_boo: 'faz'
-        };
-
-        Object.keys(expected).forEach(function (key) {
-          assert.isString(expected[key], config[key]);
-          assert.equal(expected[key], config[key]);
-        });
-      }
-    }
-  }
-}).addBatch({
   'When using `quill.composer`': {
     'the `osConfig()` method': {
       topic: quill.composer.config.osConfig(),
