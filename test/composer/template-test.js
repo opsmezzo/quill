@@ -56,7 +56,7 @@ vows.describe('quill/composer/template').addBatch(
         { line: 6, key: 'foo.bar_baz' },
         { line: 7, key: 'foo.bar-baz' },
         { line: 8, key: 'foo.{{ bar }}' },
-        { line: 9, key: '{{ bar }}' }
+        { line: 9, key: '{{ bar }}' },
         { line: 10, key: 'foo' },
         { line: 10, key: 'bar' }
       ]
