@@ -38,7 +38,7 @@ vows.describe('quill/composer/lifecycle/os-deps').addBatch(
           });
         });
 
-        helpers.cleanInstalled(['ubuntu-dep']);
+        helpers.cleanInstalled(['fixture-one', 'ubuntu-dep']);
         mock.systems.local(api, function () {
           quill.composer.run('install', 'ubuntu-dep', self.callback);
         });

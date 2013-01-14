@@ -57,11 +57,11 @@ vows.describe('quill/composer/config').addBatch(
         //
         for (i = 0; i < 2; i++) {
           api
-            .get('/config/test-config')
+            .get('/config/missing-config')
             .reply(200, {
               config: {
                 resource: 'Config',
-                name: 'test-config',
+                name: 'missing-config',
                 settings: {
                   foo: 'bazz',
                   baz: 'foo'
@@ -70,11 +70,11 @@ vows.describe('quill/composer/config').addBatch(
             });
         }
 
-        quill.argv.config = ['test-config'];
+        quill.argv.config = ['missing-config'];
         helpers.cleanInstalled(['config']);
         mock.systems.local(api, callback);
       },
-      'should output correct data',
+      'should respond with the correct error',
       function (err, _) {
         assert.isObject(err);
         assert.match(err.message, /Missing configuration value: nested/);

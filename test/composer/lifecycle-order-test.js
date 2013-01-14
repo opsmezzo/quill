@@ -37,7 +37,6 @@ vows.describe('quill/composer/lifecycle/order').addBatch(
       },
       'should install the system correctly': function (err, _) {
         assert.isNull(err);
-
         assert.equal(this.data, [
           'Installing order',
           'Configuring order',

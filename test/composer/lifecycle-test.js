@@ -53,12 +53,17 @@ vows.describe('quill/composer/lifecycle').addBatch(
           that.data = data.toString();
         })
         
-        quill.composer.runOne('install', {
-          name: 'fixture-one',
-          version: '0.0.0',
-          history: {},
-          path: path.join(systemsDir, 'fixture-one')
-        }, this.callback);
+        quill.composer.runOne(
+          'install.sh',
+          {
+            name: 'fixture-one',
+            version: '0.0.0',
+            history: {},
+            path: path.join(systemsDir, 'fixture-one')
+          },
+          {},
+          this.callback
+        );
       },
       "should run the target script successfully": function (err, _) {
         assert.isNull(err);
