@@ -175,7 +175,12 @@ exports.shouldMakeRunlist = function (args, os) {
     },
     "should respond with the correct runlist": function (err, actual) {
       assert.isNull(err);
-      assert.deepEqual(actual, list);
+      assert.deepEqual(
+        actual.map(function (system) {
+          return [system.name, system.version].join('@');
+        }),
+        list
+      );
     }
   }
 };

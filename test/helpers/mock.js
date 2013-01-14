@@ -10,6 +10,7 @@ var fs = require('fs'),
     common = require('flatiron').common,
     async = common.async,
     nock = require('nock'),
+    composer = require('../../lib/quill/composer'),
     systems = require('../fixtures/systems');
 
 var mock = module.exports;
@@ -60,13 +61,12 @@ mock.systems.local = function (api, callback) {
         return next();
       }
       
-      fs.readFile(path.join(dir, 'system.json'), 'utf8', function (err, data) {
+      composer.readJson(dir, function (err, system) {
         if (err) {
           return next(err);
         }
         
-        var system = JSON.parse(data),
-            version = common.clone(system);
+        var version = common.clone(system);
         
         system.versions = {};
         system.versions[system.version] = version;
