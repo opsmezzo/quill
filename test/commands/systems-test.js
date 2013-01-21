@@ -63,10 +63,54 @@ function shouldPackage(tarball) {
   )
 }
 
+//
+// Macro for asserting that a system is bumped
+//
+function shouldBump(expectedVersion, system) {
+  return shouldQuillOk(
+    'should update the version',
+    function setup() {
+      system = system || this.args[2];
+      var systemDir = path.join(systemsDir, system),
+          targetDir = this.args[2]
+            ? systemsDir
+            : systemDir
+
+      //
+      // Change directory to the target system
+      //
+      process.chdir(targetDir);
+      this.jsonFile     = path.join(systemDir, 'system.json');
+      this.originalText = fs.readFileSync(this.jsonFile, 'utf8');
+      this.systemJson   = JSON.parse(this.originalText);
+    },
+    function (err, _) {
+      var newJson = JSON.parse(fs.readFileSync(this.jsonFile, 'utf8'));
+      assert.notEqual(this.systemJson.version, newJson.version);
+      assert.equal(expectedVersion, newJson.version);
+
+      //
+      // Change back to the starting directory and write
+      // the original systemJson back to disk
+      //
+      process.chdir(startDir);
+      fs.writeFileSync(
+        this.jsonFile,
+        this.originalText,
+        'utf8'
+      );
+    }
+  );
+}
+
 vows.describe('quill/commands/systems').addBatch({
   'pack fixture-one': shouldPackage('fixture-one-0.0.0.tgz')
 }).addBatch({
   'systems pack fixture-two': shouldPackage('fixture-two-0.0.0.tgz')
+}).addBatch({
+  'bump': shouldBump('0.0.1', 'hello-world')
+}).addBatch({
+  'bump minor hello-world': shouldBump('0.1.0')
 }).addBatch({
   'pack noexist': shouldQuillOk(
     'should respond with ENOENT',
