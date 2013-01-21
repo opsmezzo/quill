@@ -119,7 +119,7 @@ vows.describe('quill/composer/config').addBatch(
 
         quill.argv.config = ['test-config', 'foo=bar'];
         self.data = '';
-        quill.on(['run', '*', 'stdout'], function (system, data) {
+        quill.on(['run', 'stdout'], function (system, data) {
           self.data += data.toString();
         });
 

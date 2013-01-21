@@ -26,7 +26,7 @@ vows.describe('quill/composer/lifecycle/order').addBatch(
             self = this;
 
         self.data = '';
-        quill.on(['run', '*', 'stdout'], function (system, data) {
+        quill.on(['run', 'stdout'], function (system, data) {
           self.data += data.toString();
         });
 
@@ -55,7 +55,7 @@ vows.describe('quill/composer/lifecycle/order').addBatch(
             self = this;
 
         self.data = '';
-        quill.on(['run', '*', 'stdout'], function (system, data) {
+        quill.on(['run', 'stdout'], function (system, data) {
           self.data += data.toString();
         });
 

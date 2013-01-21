@@ -111,7 +111,7 @@ vows.describe('quill/commands/systems').addBatch({
           that = this;
 
       that.data = [];
-      quill.on(['run', '*', 'stdout'], function (system, data) {
+      quill.on(['run', 'stdout'], function (system, data) {
         that.data.push({
           name: system.name,
           data: '' + data

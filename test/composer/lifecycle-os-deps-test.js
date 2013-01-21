@@ -31,7 +31,7 @@ vows.describe('quill/composer/lifecycle/os-deps').addBatch(
             self = this;
 
         self.data = [];
-        quill.on(['run', '*', 'stdout'], function (system, data) {
+        quill.on(['run', 'stdout'], function (system, data) {
           self.data.push({
             name: system.name,
             data: data.toString()

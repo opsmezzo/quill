@@ -49,7 +49,7 @@ vows.describe('quill/composer/lifecycle').addBatch(
       topic: function () {
         var that = this;
         
-        quill.on(['run', '*', 'stdout'], function (system, data) {
+        quill.on(['run', 'stdout'], function (system, data) {
           that.data = data.toString();
         })
         
@@ -87,7 +87,7 @@ vows.describe('quill/composer/lifecycle').addBatch(
             that = this;
 
         that.data = [];
-        quill.on(['run', '*', 'stdout'], function (system, data) {
+        quill.on(['run', 'stdout'], function (system, data) {
           that.data.push({
             name: system.name, 
             data: '' + data
