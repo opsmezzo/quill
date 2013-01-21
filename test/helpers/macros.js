@@ -50,7 +50,7 @@ exports.shouldQuillOk = function () {
           that = this,
           argv;
           
-      quill.argv._ = this.context.name.split(' ')
+      quill.argv._ = this.args = this.context.name.split(' ');
       
       if (!quill.initialized) {
         quill.config.stores.file.file = path.join(fixturesDir, 'dot-quillconf');
