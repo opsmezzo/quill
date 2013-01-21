@@ -44,31 +44,42 @@ vows.describe('quill/composer/config').addBatch(
     }
   }
 }).addBatch({
+  "With missing remotes": {
+    "configure config": shouldQuillOk(
+      function setup(callback) {
+        var api = nock('http://api.testquill.com');
+
+        api.get('/config/missing-config')
+          .reply(404);
+
+        quill.argv.config = ['missing-config'];
+        helpers.cleanInstalled(['config']);
+        mock.systems.local(api, callback);
+      },
+      'should respond with the correct error',
+      function (err, _) {
+        assert.isObject(err);
+        assert.match(err.message, /Error fetching configs missing-config/);
+      }
+    )
+  }
+}).addBatch({
   "With missing config values": {
     "configure config": shouldQuillOk(
       function setup(callback) {
-        var api = nock('http://api.testquill.com'),
-            self = this,
-            i;
+        var api = nock('http://api.testquill.com');
 
-        //
-        // Mock the API twice - `configure` implies `install`, thus data
-        // is fetched twice.
-        //
-        for (i = 0; i < 2; i++) {
-          api
-            .get('/config/missing-config')
-            .reply(200, {
-              config: {
-                resource: 'Config',
-                name: 'missing-config',
-                settings: {
-                  foo: 'bazz',
-                  baz: 'foo'
-                }
+        api.get('/config/missing-config')
+          .reply(200, {
+            config: {
+              resource: 'Config',
+              name: 'missing-config',
+              settings: {
+                foo: 'bazz',
+                baz: 'foo'
               }
-            });
-        }
+            }
+          });
 
         quill.argv.config = ['missing-config'];
         helpers.cleanInstalled(['config']);
@@ -86,36 +97,28 @@ vows.describe('quill/composer/config').addBatch(
     "configure config": shouldQuillOk(
       function setup(callback) {
         var api = nock('http://api.testquill.com'),
-            self = this,
-            i;
+            self = this;
 
-        //
-        // Mock the API twice - `configure` implies `install`, thus data
-        // is fetched twice.
-        //
-        for (i = 0; i < 2; i++) {
-          api
-            .get('/config/test-config')
-            .reply(200, {
-              config: {
-                resource: 'Config',
-                name: 'test-config',
-                settings: {
-                  foo: 'bazz',
-                  baz: 'foo',
-                  index: 1,
-                  nested: {
-                    val: 42,
-                    foo: 42
-                  },
-                  list: [
-                    'first',
-                    'second'
-                  ]
-                }
+        api.get('/config/test-config')
+          .reply(200, {
+            config: {
+              resource: 'Config',
+              name: 'test-config',
+              settings: {
+                foo: 'bazz',
+                baz: 'foo',
+                index: 1,
+                nested: {
+                  val: 42,
+                  foo: 42
+                },
+                list: [
+                  'first',
+                  'second'
+                ]
               }
-            });
-        }
+            }
+          });
 
         quill.argv.config = ['test-config', 'foo=bar'];
         self.data = '';
