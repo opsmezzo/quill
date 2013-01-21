@@ -151,8 +151,14 @@ vows.describe('quill/commands/systems').addBatch({
 }).addBatch({
   'install fixture-one': shouldQuillOk(
     function setup(callback) {
-      var api = nock('http://api.testquill.com'),
+      var installFile = path.join(systemsDir, 'fixture-one', 'scripts', 'install.sh'),
+          api = nock('http://api.testquill.com'),
           that = this;
+
+      //
+      // Change the install file so that it is not executable
+      //
+      fs.chmodSync(installFile, '750');
 
       that.data = [];
       quill.on(['run', 'stdout'], function (system, data) {
