@@ -14,6 +14,7 @@
     "configuration"
   ],
   "dependencies": {
+    "archy": "0.0.2",
     "colors": "0.6.0-1",
     "conservatory-api": "0.5.2",
     "errs": "0.2.3",
