@@ -31,7 +31,7 @@
     "wtfos": "0.0.3"
   },
   "devDependencies": {
-    "nock": "0.13.x",
+    "nock": "0.15.x",
     "vows": "0.7.x"
   },
   "publishConfig": {
