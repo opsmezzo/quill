@@ -104,14 +104,17 @@ vows.describe('quill/composer/cache').addBatch(
         
         mock.systems.local(api, function () {
           quill.composer.cache.add({
-            systems: ['hello-world']
+            systems: [{
+              name: 'hello-world',
+              version: '0.0.0'
+            }]
           }, that.callback);
         });
       },
-      "add the system and all dependencies to the cache": function (err, versions) {
+      "add the system to the cache": function (err, versions) {
         assert.isNull(err);
         assert.isArray(versions);
-        assert.lengthOf(versions, 3);
+        assert.lengthOf(versions, 1);
         
         var files = fs.readdirSync(cacheDir);
         
