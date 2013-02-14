@@ -8,6 +8,7 @@
 var assert = require('assert'),
     fs = require('fs'),
     path = require('path'),
+    os = require('os'),
     common = require('flatiron').common,
     rimraf = common.rimraf,
     nock = require('nock'),
@@ -179,6 +180,50 @@ vows.describe('quill/commands/systems').addBatch({
       assertScriptOutput(this.data[0], 'fixture-one');
     }
   )
+}).addBatch({
+  'when lifecycle:disabled is the current platform': {
+    'install fixture-one': shouldQuillOk(
+      function setup(callback) {
+        var api = nock('http://api.testquill.com'),
+            that = this;
+
+        that.data = [];
+        quill.on(['run', 'stdout'], function (system, data) {
+          that.data.push({
+            name: system.name,
+            data: '' + data
+          });
+        });
+
+        //
+        // Mock `os.platform` so this test passes on every
+        // platform.
+        //
+        quill.config.set('lifecycle:disabled', 'quill-test');
+        os.__platform = os.platform;
+        os.platform = function () {
+          return 'quill-test';
+        };
+
+        mock.systems.local(api, callback);
+
+        try { rimraf.sync(path.join(helpers.dirs.installDir, 'fixture-one')) }
+        catch (ex) { }
+      },
+      'should move files into place but not run the specified script',
+      function (err, _) {
+        assert.isNull(err);
+        assert.lengthOf(this.data, 0);
+        assert.isArray(fs.readdirSync(path.join(helpers.dirs.installDir, 'fixture-one')))
+
+        //
+        // Revert platform mocking.
+        //
+        os.platform = os.__platform;
+        delete os.__platform;
+      }
+    )
+  }
 }).addBatch({
   'systems installed': shouldQuillOk(),
   'installed': shouldQuillOk()
