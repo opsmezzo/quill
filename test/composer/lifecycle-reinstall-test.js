@@ -49,7 +49,6 @@ vows.describe('quill/composer/lifecycle/reinstall').addBatch(
         quill.argv.force = true;
         self.data = '';
         quill.on(['run', 'stdout'], function (system, data) {
-          console.dir('' + data);
           self.data += data.toString();
         });
 
