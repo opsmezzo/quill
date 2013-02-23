@@ -209,11 +209,11 @@ exports.shouldAddOne = function (sourceDir, system) {
       assert.include(system, 'name');
       assert.include(system, 'version');
       assert.include(system, 'root');
-      assert.include(system, 'path');
+      assert.include(system, 'cached');
       assert.include(system, 'tarball');
       
       assert.isObject(fs.statSync(system.root));
-      assert.isObject(fs.statSync(system.path));
+      assert.isObject(fs.statSync(system.cached));
       assert.isObject(fs.statSync(system.tarball));
       
       //
