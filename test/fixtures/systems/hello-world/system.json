@@ -4,6 +4,9 @@
   "description": "Hello world test fixtures",
   "author": "Nodejitsu Inc <info@nodejitsu.com>",
   "runlist": ["fixture-one", "fixture-two"],
+  "config": {
+    "world": "nyc"
+  },
   "dependencies": {
     "fixture-one": "0.0.0",
     "fixture-two": "0.0.0"
