@@ -22,7 +22,7 @@
     "flatiron-cli-config": "0.1.4",
     "flatiron-cli-users": "0.1.8",
     "fstream": "0.1.21",
-    "multimeter": "https://github.com/indexzero/node-multimeter/tarball/hotfix",
+    "multimeter": "https://github.com/indexzero/node-multimeter/tarball/meter-stack",
     "pkginfo": "0.2.2",
     "quill-tar": "0.2.1",
     "quill-template": "0.3.3",
