@@ -101,21 +101,6 @@ vows.describe('quill/composer/installed').addBatch(
   }
 }).addBatch({
   "When using quill.composer.installed": {
-    "systems latest hello-world": shouldQuillOk(
-      function setup(callback) {
-        var api = nock('http://api.testquill.com'),
-            self = this;
-
-        mock.systems.local(api, ['0.0.1', '0.1.0'], callback);
-      },
-      'should install the system correctly',
-      function (err, _) {
-        console.dir(arguments);
-      }
-    )
-  }
-}).addBatch({
-  "When using quill.composer.installed": {
     "the remove() method": {
       "with a single system": {
         topic: function () {

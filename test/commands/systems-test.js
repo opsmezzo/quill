@@ -225,9 +225,6 @@ vows.describe('quill/commands/systems').addBatch({
     )
   }
 }).addBatch({
-  'systems installed': shouldQuillOk(),
-  'installed': shouldQuillOk()
-}).addBatch({
   'unpublish fixture-one': shouldQuillOk(
     function setup() {
       nock('http://api.testquill.com')
