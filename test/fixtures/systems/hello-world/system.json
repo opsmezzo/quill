@@ -8,7 +8,7 @@
     "world": "nyc"
   },
   "dependencies": {
-    "fixture-one": "0.0.0",
-    "fixture-two": "0.0.0"
+    "fixture-one": "0.0.x",
+    "fixture-two": "0.0.x"
   }
 }

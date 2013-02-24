@@ -43,11 +43,15 @@ mock.systems.all = function (api) {
 };
 
 //
-// ### function local (api, callback)
-// 
+// ### function local (api, versions, callback)
 // Mocks the `api` for all of the systems in `/test/fixtures/systems/*`.
 //
-mock.systems.local = function (api, callback) {
+mock.systems.local = function (api, versions, callback) {
+  if (!callback && typeof versions === 'function') {
+    callback = versions;
+    versions = null;
+  }
+
   //
   // Helper function to list a dir, read the system.json
   // and mock the system if appropriate.
@@ -65,11 +69,19 @@ mock.systems.local = function (api, callback) {
         if (err) {
           return next(err);
         }
-        
-        var version = common.clone(system);
-        
+
+        var copy = common.clone(system);
+
         system.versions = {};
-        system.versions[system.version] = version;
+        versions = versions
+          ? versions.concat(system.version)
+          : [system.version];
+
+        versions.forEach(function addVersion(version) {
+          var ver = common.clone(copy)
+          ver.version = version;
+          system.versions[version] = ver;
+        });
         mock.systems.get(api, system);
         mock.systems.download(api, system, path.join(sourceDir, system.name + '.tgz'));
         next();

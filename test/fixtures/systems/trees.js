@@ -4,14 +4,20 @@
  * (C) 2010, Nodejitsu Inc.
  *
  */
- 
+
 var trees = exports;
 
 //
 // Dependency tree with no dependencies
 //
 trees['no-deps'] = {
-  tree: { 'no-deps@0.1.2': null },
+  tree: {
+    'no-deps': {
+      versions: [ '0.1.2' ],
+      required: '*',
+      name: 'no-deps'
+    }
+  },
   list: ['no-deps@0.1.2']
 };
 
@@ -19,10 +25,18 @@ trees['no-deps'] = {
 // Dependency tree with two dependencies
 //
 trees['depends-on-a-b'] = {
-  tree: { 
-    'depends-on-a-b@0.1.2': {
-      'a@0.0.1': null,
-      'b@0.2.0': null
+  tree: {
+    'depends-on-a-b': {
+      b: {
+        name: 'b',
+        required: '0.2.0',
+        versions: [ '0.2.0' ]
+      },
+      a: {
+        name: 'a',
+        required: '0.0.1',
+        versions: [ '0.0.1' ]
+      }
     }
   },
   list: ['b@0.2.0', 'a@0.0.1', 'depends-on-a-b@0.1.2']
@@ -32,12 +46,24 @@ trees['depends-on-a-b'] = {
 // Dependency tree with dependency in a dependency
 //
 trees['dep-in-dep'] = {
-  tree: { 
-    'dep-in-dep@1.0.2': {
-      'a@0.0.1': null,
-      'b@0.2.0': null,
-      'c@0.3.0': {
-        'b@0.2.0': null
+  tree: {
+    'dep-in-dep': {
+      b: {
+        required: '0.2.0',
+        versions: [ '0.2.0' ],
+        name: 'b'
+      },
+      a: {
+        required: '0.0.1',
+        versions: [ '0.0.1' ],
+        name: 'a'
+      },
+      c: {
+        b: {
+          required: '0.2.0',
+          versions: [ '0.2.0' ],
+          name: 'b'
+        }
       }
     }
   },
@@ -49,8 +75,12 @@ trees['dep-in-dep'] = {
 //
 trees['single-dep'] = {
   tree: {
-    'single-dep@0.1.0': {
-      'a@0.0.1': null
+    'single-dep': {
+      a: {
+        required: '0.0.1',
+        name: 'a',
+        versions: [ '0.0.1' ]
+      }
     }
   },
   list: ['a@0.0.1', 'single-dep@0.1.0']
@@ -62,8 +92,12 @@ trees['single-dep'] = {
 //
 trees['empty-runlist'] = {
   tree: {
-    'empty-runlist@0.1.0': {
-      'a@0.0.1': null
+    'empty-runlist': {
+      a: {
+        required: '0.0.1',
+        name: 'a',
+        versions: [ '0.0.1' ]
+      }
     }
   },
   list: ['a@0.0.1', 'empty-runlist@0.1.0']
@@ -75,9 +109,17 @@ trees['empty-runlist'] = {
 //
 trees['single-ubuntu-dep'] = {
   tree: {
-    'single-ubuntu-dep@0.0.1': {
-      'a@0.0.1': null,
-      'b@0.2.0': null
+    'single-ubuntu-dep': {
+      b: {
+        required: '0.2.0',
+        versions: [ '0.2.0' ],
+        name: 'b'
+      },
+      a: {
+        required: '0.0.1',
+        versions: [ '0.0.1' ],
+        name: 'a'
+      }
     }
   },
   list: ['b@0.2.0', 'a@0.0.1', 'single-ubuntu-dep@0.0.1']

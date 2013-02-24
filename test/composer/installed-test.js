@@ -15,7 +15,8 @@ var assert = require('assert'),
     mock = require('../helpers/mock'),
     quill = require('../../lib/quill');
 
-var fixturesDir = path.join(__dirname, '..', 'fixtures'),
+var shouldQuillOk = macros.shouldQuillOk,
+    fixturesDir = path.join(__dirname, '..', 'fixtures'),
     systemsDir = path.join(fixturesDir, 'systems'),
     installDir = path.join(fixturesDir, 'installed'),
     sourceDir = path.join(systemsDir, 'tgz');
@@ -97,6 +98,21 @@ vows.describe('quill/composer/installed').addBatch(
         assert.isObject(systems['hello-world']);
       }
     }
+  }
+}).addBatch({
+  "When using quill.composer.installed": {
+    "systems latest hello-world": shouldQuillOk(
+      function setup(callback) {
+        var api = nock('http://api.testquill.com'),
+            self = this;
+
+        mock.systems.local(api, ['0.0.1', '0.1.0'], callback);
+      },
+      'should install the system correctly',
+      function (err, _) {
+        console.dir(arguments);
+      }
+    )
   }
 }).addBatch({
   "When using quill.composer.installed": {
