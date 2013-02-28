@@ -30,7 +30,16 @@ vows.describe('quill/commands/installed').addBatch({
       var api = nock('http://api.testquill.com'),
           self = this;
 
-      mock.systems.local(api, ['0.0.1', '0.1.0'], callback);
+      mock.systems.local(api, {
+        'fixture-one': {
+          requests: 2,
+          versions: ['0.0.1', '0.1.0']
+        },
+        'fixture-two': {
+          requests: 2,
+          versions: ['0.0.1', '0.1.0']
+        }
+      }, callback);
     },
     'should install the system correctly',
     function (err, latest) {
