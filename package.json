@@ -43,7 +43,7 @@
   },
   "main": "./lib/quill",
   "scripts": {
-    "test": "vows test/**/*-test.js -i --spec"
+    "test": "vows test/*-test.js test/**/*-test.js -i --spec"
   },
   "engines": {
     "node": ">= 0.4.4"
