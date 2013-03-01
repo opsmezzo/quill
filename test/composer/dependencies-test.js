@@ -12,6 +12,7 @@ var assert = require('assert'),
     vows = require('vows'),
     helpers = require('../helpers'),
     macros = require('../helpers/macros'),
+    mock = require('../helpers/mock'),
     quill = require('../../lib/quill');
 
 vows.describe('quill/composer/dependencies').addBatch(macros.shouldInit()).addBatch({
@@ -21,6 +22,27 @@ vows.describe('quill/composer/dependencies').addBatch(macros.shouldInit()).addBa
     ),
     "the runlist() method": macros.shouldAnalyzeDeps(
       macros.shouldMakeRunlist
-    )
+    ),
+    "the remoteRunlist() method": {
+      "hello-remote-deps": {
+        topic: function () {
+          var api = nock('http://api.testquill.com');
+          mock.systems.all(api);
+
+          quill.composer.remoteRunlist({
+            systems: ['hello-remote-deps']
+          }, this.callback);
+        },
+        "should respond with the correct remoteRunlist": function (err, remoteRunlist) {
+          assert.isNull(err);
+          assert.lengthOf(remoteRunlist, 1);
+
+          var fixtureOne = remoteRunlist[0];
+          assert.equal(fixtureOne.name, 'fixture-one');
+          assert.equal(fixtureOne.version, '0.0.0');
+          assert.equal(fixtureOne.semver, '0.0.x');
+        }
+      }
+    }
   }
 }).export(module);

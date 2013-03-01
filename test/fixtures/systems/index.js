@@ -18,6 +18,9 @@ var systems = module.exports = [
     version: '0.0.0',
     versions: {
       '0.0.0': {
+        remoteDependencies: {
+          'fixture-one': '0.0.x'
+        },
         dependencies: {
           'fixture-two': '0.0.x'
         }
@@ -26,6 +29,13 @@ var systems = module.exports = [
   },
   {
     name: 'fixture-two',
+    version: '0.0.0',
+    versions: {
+      '0.0.0': {}
+    }
+  },
+  {
+    name: 'fixture-one',
     version: '0.0.0',
     versions: {
       '0.0.0': {}
