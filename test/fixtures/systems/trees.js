@@ -22,6 +22,23 @@ trees['no-deps'] = {
 };
 
 //
+// Dependency tree with remoteDependencies
+//
+trees['hello-remote-deps'] = {
+  tree: {
+    'hello-remote-deps': {
+      'fixture-two': {
+        name: 'fixture-two',
+        versions: [ '0.0.0' ],
+        required: '0.0.x'
+      }
+    }
+  },
+  list: ['fixture-two@0.0.0', 'hello-remote-deps@0.0.0']
+};
+
+
+//
 // Dependency tree with two dependencies
 //
 trees['depends-on-a-b'] = {

@@ -12,7 +12,25 @@ var systems = module.exports = [
     versions: {
       '0.1.2': {}
     }
-  }, 
+  },
+  {
+    name: 'hello-remote-deps',
+    version: '0.0.0',
+    versions: {
+      '0.0.0': {
+        dependencies: {
+          'fixture-two': '0.0.x'
+        }
+      }
+    }
+  },
+  {
+    name: 'fixture-two',
+    version: '0.0.0',
+    versions: {
+      '0.0.0': {}
+    }
+  },
   {
     name: 'single-dep',
     version: '0.1.0',
