@@ -171,9 +171,7 @@ vows.describe('quill/commands/systems').addBatch({
       });
 
       mock.systems.local(api, callback);
-
-      try { rimraf.sync(path.join(helpers.dirs.installDir, 'hello-world')) }
-      catch (ex) { }
+      helpers.cleanInstalled(['fixture-one', 'hello-world']);
     },
     'should run the specified script',
     function (err, _) {
@@ -242,9 +240,7 @@ vows.describe('quill/commands/systems').addBatch({
         };
 
         mock.systems.local(api, callback);
-
-        try { rimraf.sync(path.join(helpers.dirs.installDir, 'fixture-one')) }
-        catch (ex) { }
+        helpers.cleanInstalled(['fixture-one']);
       },
       'should move files into place but not run the specified script',
       function (err, _) {
@@ -257,6 +253,33 @@ vows.describe('quill/commands/systems').addBatch({
         //
         os.platform = os.__platform;
         delete os.__platform;
+      }
+    )
+  }
+}).addBatch({
+  'With valid remoteDependencies': {
+    'install hello-remote-deps': shouldQuillOk(
+      function setup(callback) {
+        var api = nock('http://api.testquill.com'),
+            that = this;
+
+        that.data = [];
+        quill.on(['run', 'stdout'], function (system, data) {
+          that.data.push({
+            name: system.name,
+            data: '' + data
+          });
+        });
+
+        helpers.cleanInstalled(['fixture-two', 'hello-remote-deps']);
+        mock.config.servers(api, ['fixture-one']);
+        mock.systems.local(api, callback);
+      },
+      'should install the latest version',
+      function (err, _) {
+        assert.isNull(err);
+        assert.lengthOf(this.data, 2);
+        assert.equal(this.data[1].name, 'hello-remote-deps');
       }
     )
   }

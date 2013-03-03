@@ -20,11 +20,21 @@ var systemsDir = path.join(__dirname, '..', 'fixtures', 'systems'),
 
 mock.api     = nock('http://api.testquill.com');
 mock.systems = {};
+mock.config  = {};
+
+mock.config.servers = function (api, systems) {
+  api.get('/config/servers')
+    .reply(200, systems.reduce(function (config, name) {
+      config[name] = [{
+        'public':  ['127.0.0.1'],
+        'private': ['127.0.0.1']
+      }];
+
+      return config;
+    }, {}));
+};
 
 mock.systems.get = function (api, system) {
-  //
-  // Remark: This is bad. Should have an option which always returns this thing.
-  //
   api.get('/systems/' + system.name)
     .reply(200, { system: system });
 };
