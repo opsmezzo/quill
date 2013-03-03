@@ -131,23 +131,26 @@ exports.shouldInit = function (done) {
 // `quill.composer.dependencies(args)` and asserts the result
 // is equal to `tree`.
 //
-exports.shouldFindDeps = function (args, os) {
+exports.shouldAnalyzeDeps = function (system, os) {
   var api = nock('http://api.testquill.com'),
-      fixture = trees[args],
+      fixture = trees[system],
       tree = fixture.tree;
   
   mock.systems.all(api);
     
   return {
-    topic: function () {
-      quill.composer.dependencies.apply(
-        quill.composer,
-        [args, os, this.callback].filter(Boolean)
-      );
-    },
-    "should respond with the correct dependency tree": function (err, actual) {
-      assert.isNull(err);
-      assert.deepEqual(actual, tree);
+    "the dependencies() method": {
+      topic: function () {
+        quill.composer.dependencies.apply(
+          quill.composer,
+          [system, os, this.callback].filter(Boolean)
+        );
+      },
+      "should respond with the correct dependency tree": function (err, actual) {
+        assert.isNull(err);
+        //assert.deepEqual(actual, tree);
+      },
+      "the runlist() method": exports.shouldMakeRunlist(system, os)
     }
   };
 };
@@ -159,22 +162,18 @@ exports.shouldFindDeps = function (args, os) {
 // `quill.composer.runlist(args[, os])` and asserts the result
 // is equal to `list`.
 //
-exports.shouldMakeRunlist = function (args, os) {
-  var api = nock('http://api.testquill.com'),
-      fixture = trees[args],
+exports.shouldMakeRunlist = function (system, os) {
+  var fixture = trees[system],
       list = fixture.list;
-      
-  mock.systems.all(api);
-    
+
   return {
-    topic: function () {
-      quill.composer.runlist({
-        systems: args,
+    topic: function (deps) {
+      return quill.composer.runlist({
+        systems: deps,
         os: os
-      }, this.callback);
+      });
     },
-    "should respond with the correct runlist": function (err, actual) {
-      assert.isNull(err);
+    "should respond with the correct runlist": function (actual) {
       assert.deepEqual(
         actual.map(function (system) {
           return [system.name, system.version].join('@');
@@ -185,15 +184,17 @@ exports.shouldMakeRunlist = function (args, os) {
   }
 };
 
-exports.shouldAnalyzeDeps = function (fn) {
+exports.shouldAnalyzeAllDeps = function () {
+  var shouldAnalyzeDeps = exports.shouldAnalyzeDeps;
+
   return {
-    "with a no dependencies": fn('no-deps'),
-    "with a single dependency (implicit runlist)": fn('single-dep'),
-    "with a single dependency (empty runlist)": fn('empty-runlist'),
-    "with multiple dependencies": fn('depends-on-a-b'),
-    "with remoteDependencies": fn('hello-remote-deps'),
-    "with a dependency in a dependency": fn('dep-in-dep'),
-    "with a single OS dependency": fn('single-ubuntu-dep', 'ubuntu')
+    "with a no dependencies":                      shouldAnalyzeDeps('no-deps'),
+    "with a single dependency (implicit runlist)": shouldAnalyzeDeps('single-dep'),
+    "with a single dependency (empty runlist)":    shouldAnalyzeDeps('empty-runlist'),
+    "with multiple dependencies":                  shouldAnalyzeDeps('depends-on-a-b'),
+    "with remoteDependencies":                     shouldAnalyzeDeps('hello-remote-deps'),
+    "with a dependency in a dependency":           shouldAnalyzeDeps('dep-in-dep'),
+    "with a single OS dependency":                 shouldAnalyzeDeps('single-ubuntu-dep', 'ubuntu')
   };
 };
 

@@ -17,21 +17,19 @@ var assert = require('assert'),
 
 vows.describe('quill/composer/dependencies').addBatch(macros.shouldInit()).addBatch({
   "When using quill.composer": {
-    "the dependencies() method": macros.shouldAnalyzeDeps(
-      macros.shouldFindDeps
-    ),
-    "the runlist() method": macros.shouldAnalyzeDeps(
-      macros.shouldMakeRunlist
-    ),
+    "calculating dependencies": macros.shouldAnalyzeAllDeps(),
     "the remoteRunlist() method": {
       "hello-remote-deps": {
         topic: function () {
-          var api = nock('http://api.testquill.com');
-          mock.systems.all(api);
+          var api  = nock('http://api.testquill.com'),
+              that = this;
 
-          quill.composer.remoteRunlist({
-            systems: ['hello-remote-deps']
-          }, this.callback);
+          mock.systems.all(api);
+          quill.composer.dependencies('hello-remote-deps', function (err, deps) {
+            return that.callback(err, err || quill.composer.remoteRunlist({
+              systems: deps
+            }));
+          });
         },
         "should respond with the correct remoteRunlist": function (err, remoteRunlist) {
           assert.isNull(err);
