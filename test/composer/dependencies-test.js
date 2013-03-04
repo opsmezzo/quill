@@ -25,8 +25,11 @@ vows.describe('quill/composer/dependencies').addBatch(macros.shouldInit()).addBa
               that = this;
 
           mock.systems.all(api);
-          quill.composer.dependencies('hello-remote-deps', function (err, deps) {
-            return that.callback(err, err || quill.composer.remoteRunlist({
+          quill.composer.dependencies({
+            systems: 'hello-remote-deps',
+            client: quill.systems
+          }, function (err, deps) {
+            return that.callback(err, err || quill.composer.remote.runlist({
               systems: deps
             }));
           });
