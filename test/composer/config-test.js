@@ -76,7 +76,8 @@ vows.describe('quill/composer/config').addBatch(
               name: 'missing-config',
               settings: {
                 foo: 'bazz',
-                baz: 'foo'
+                baz: 'foo',
+                index: 0
               }
             }
           });
@@ -168,5 +169,83 @@ vows.describe('quill/composer/config').addBatch(
         delete quill.argv.config;
       }
     )
+  }
+}).addBatch({
+  "With all config values": {
+    "a second time": {
+      "configure config": shouldQuillOk(
+        function setup(callback) {
+          var api = nock('http://api.testquill.com'),
+              self = this;
+
+          api.get('/config/test-config')
+            .reply(200, {
+              config: {
+                resource: 'Config',
+                name: 'test-config',
+                settings: {
+                  foo: 'buzz',
+                  baz: 'bar',
+                  index: 0,
+                  nested: {
+                    val: 84,
+                    bar: 84
+                  },
+                  list: [
+                    'second',
+                    'third'
+                  ]
+                }
+              }
+            });
+
+          quill.argv.config = ['test-config', 'foo=again'];
+          self.data = '';
+          quill.on(['run', 'stdout'], function (system, data) {
+            self.data += data.toString();
+          });
+
+          mock.systems.local(api, callback);
+        },
+        'should output correct data',
+        function (err, _) {
+          assert.isNull(err);
+
+          var config = JSON.parse(this.data);
+          var expected = {
+            env: {
+              quill_foo: 'again',
+              quill_baz: 'bar',
+              quill_index: 0,
+              quill_nested_val: 84,
+              quill_nested_bar: 84,
+              quill_list_0: 'second',
+              quill_list_1: 'third',
+              q_foo: 'again',
+              q_baz: 'bar',
+              q_index: 0,
+              q_nested_val: 84,
+              q_nested_bar: 84,
+              q_list_0: 'second',
+              q_list_1: 'third',
+            },
+            file: [
+              'foo is again',
+              'This should be an object: {\n  "val": 84,\n  "bar": 84\n}',
+              'This should template inside out: 84',
+              'This should index into a list: second',
+              'This should index into a list inside out: second'
+            ].join('\n')
+          };
+
+          assert.equal(expected.file, config.file);
+          Object.keys(expected.env).forEach(function (key) {
+            assert.equal(expected.env[key], config.env[key]);
+          });
+
+          delete quill.argv.config;
+        }
+      )
+    }
   }
 }).export(module);

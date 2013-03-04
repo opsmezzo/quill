@@ -15,7 +15,8 @@ var assert = require('assert'),
     mock = require('../helpers/mock'),
     quill = require('../../lib/quill');
 
-var fixturesDir = path.join(__dirname, '..', 'fixtures'),
+var shouldQuillOk = macros.shouldQuillOk,
+    fixturesDir = path.join(__dirname, '..', 'fixtures'),
     systemsDir = path.join(fixturesDir, 'systems'),
     installDir = path.join(fixturesDir, 'installed'),
     cacheDir = path.join(fixturesDir, 'cache');
@@ -51,7 +52,7 @@ vows.describe('quill/composer/lifecycle').addBatch(
         
         quill.on(['run', 'stdout'], function (system, data) {
           that.data = data.toString();
-        })
+        });
         
         quill.composer.runOne(
           'install.sh',
@@ -59,7 +60,7 @@ vows.describe('quill/composer/lifecycle').addBatch(
             name: 'fixture-one',
             version: '0.0.0',
             history: {},
-            path: path.join(systemsDir, 'fixture-one')
+            installed: path.join(systemsDir, 'fixture-one')
           },
           {},
           this.callback
@@ -82,53 +83,52 @@ vows.describe('quill/composer/lifecycle').addBatch(
 }).addBatch({
   "When using quill.composer": {
     "the run() method": {
-      topic: function () {
-        var api = nock('http://api.testquill.com'),
-            that = this;
+      "install hello-world": shouldQuillOk(
+        function setup(callback) {
+          var api = nock('http://api.testquill.com'),
+              that = this;
 
-        that.data = [];
-        quill.on(['run', 'stdout'], function (system, data) {
-          that.data.push({
-            name: system.name, 
-            data: '' + data
+          that.data = [];
+          quill.on(['run', 'stdout'], function (system, data) {
+            that.data.push({
+              name: system.name,
+              data: '' + data
+            });
           });
-        });
         
-        helpers.cleanInstalled();
-        mock.systems.local(api, function () {        
-          quill.composer.run('install', 'hello-world', that.callback);
-        });
-      },
-      "should run the specified scripts": function (err, systems) {
-        assert.isNull(err);
+          helpers.cleanInstalled();
+          mock.systems.local(api, callback);
+        },
+        "should run the specified scripts",
+        function (err, systems) {
+          assert.isNull(err);
                 
-        helpers.assertScriptOutput(this.data[0], 'fixture-one');
-        helpers.assertScriptOutput(this.data[1], 'fixture-two');
-        helpers.assertScriptOutput(this.data[2], 'hello-world');
+          helpers.assertScriptOutput(this.data[0], 'fixture-one');
+          helpers.assertScriptOutput(this.data[1], 'fixture-two');
+          helpers.assertScriptOutput(this.data[2], 'hello-world');
         
-        assertHistory('install', {
-          name: 'hello-world',
-          version: '0.0.0'
-        });
-      }
+          assertHistory('install', {
+            name: 'hello-world',
+            version: '0.0.0'
+          });
+        }
+      )
     }
   }
 }).addBatch({
   "When using quill.composer": {
-    "the run() method": {
-      topic: function () {
+    "install invalid-dep": shouldQuillOk(
+      function setup(callback) {
         var api = nock('http://api.testquill.com'),
             that = this;
 
-        mock.systems.local(api, function () {
-          quill.composer.run('install', 'invalid-dep', that.callback);
-        });
+        mock.systems.local(api, callback);
       },
-      "should run the specified scripts": function (err, systems) {
+      "should run the specified scripts",
+      function (err, systems) {
         assert(err);
         assert.equal(err.message, 'Could not resolve dependency: fixture-one@1.0.x');
       }
-    }
+    )
   }
-}
-).export(module);
+}).export(module);

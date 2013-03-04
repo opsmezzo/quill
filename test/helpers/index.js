@@ -20,6 +20,7 @@ exports.dirs.fixturesDir = path.join(__dirname, '..', 'fixtures');
 exports.dirs.systemsDir  = path.join(exports.dirs.fixturesDir, 'systems');
 exports.dirs.installDir  = path.join(exports.dirs.fixturesDir, 'installed');
 exports.dirs.cacheDir    = path.join(exports.dirs.fixturesDir, 'cache');
+exports.dirs.ssl         = path.join(exports.dirs.fixturesDir, 'ssl');
 
 exports.init = function (callback) {
   quill.config.stores.file.file = path.join(__dirname, '..', 'fixtures', 'dot-quillconf');

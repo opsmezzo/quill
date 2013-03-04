@@ -15,15 +15,16 @@ var assert = require('assert'),
     mock = require('../helpers/mock'),
     quill = require('../../lib/quill');
 
-var fixturesDir = path.join(__dirname, '..', 'fixtures'),
+var shouldQuillOk = macros.shouldQuillOk,
+    fixturesDir = path.join(__dirname, '..', 'fixtures'),
     systemsDir = path.join(fixturesDir, 'systems'),
     installDir = path.join(fixturesDir, 'installed'),
     sourceDir = path.join(systemsDir, 'tgz');
 
 function assertInstalled(system) {
-  assert.isString(system.path);
-  assert.isTrue(fs.existsSync(system.path));
-  assert.isTrue(fs.existsSync(path.join(system.path, 'system.json')));
+  assert.isString(system.installed);
+  assert.isTrue(fs.existsSync(system.installed));
+  assert.isTrue(fs.existsSync(path.join(system.installed, 'system.json')));
   
   var details = helpers.latestHistory(system, 1);
   
@@ -50,7 +51,7 @@ vows.describe('quill/composer/installed').addBatch(
         quill.composer.installed.addOne({
           name: 'fixture-one',
           version: '0.0.0',
-          path: path.join(systemsDir, 'fixture-one')
+          cached: path.join(systemsDir, 'fixture-one')
         }, this.callback);
       },
       "should add the system to the install directory": function (err, system) {
@@ -66,15 +67,15 @@ vows.describe('quill/composer/installed').addBatch(
         quill.composer.installed.add([{
           name: 'fixture-one',
           version: '0.0.0',
-          path: path.join(systemsDir, 'fixture-one')
+          cached: path.join(systemsDir, 'fixture-one')
         }, {
           name: 'fixture-two',
           version: '0.0.0',
-          path: path.join(systemsDir, 'fixture-two')
+          cached: path.join(systemsDir, 'fixture-two')
         }, {
           name: 'hello-world',
           version: '0.0.0',
-          path: path.join(systemsDir, 'hello-world')
+          cached: path.join(systemsDir, 'hello-world')
         }], this.callback)
       },
       "should add all systems to the install directory": function (err, systems) {

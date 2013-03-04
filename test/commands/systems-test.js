@@ -8,7 +8,9 @@
 var assert = require('assert'),
     fs = require('fs'),
     path = require('path'),
+    os = require('os'),
     common = require('flatiron').common,
+    async = common.async,
     rimraf = common.rimraf,
     nock = require('nock'),
     vows = require('vows'),
@@ -149,9 +151,9 @@ vows.describe('quill/commands/systems').addBatch({
     )
   }
 }).addBatch({
-  'install fixture-one': shouldQuillOk(
+  'install hello-world': shouldQuillOk(
     function setup(callback) {
-      var installFile = path.join(systemsDir, 'fixture-one', 'scripts', 'install.sh'),
+      var installFile = path.join(systemsDir, 'hello-world', 'scripts', 'install.sh'),
           api = nock('http://api.testquill.com'),
           that = this;
 
@@ -169,16 +171,118 @@ vows.describe('quill/commands/systems').addBatch({
       });
 
       mock.systems.local(api, callback);
-
-      try { rimraf.sync(path.join(helpers.dirs.installDir, 'fixture-one')) }
-      catch (ex) { }
+      helpers.cleanInstalled(['fixture-one', 'hello-world']);
     },
     'should run the specified script',
     function (err, _) {
       assert.isNull(err);
       assertScriptOutput(this.data[0], 'fixture-one');
+      assertScriptOutput(this.data[1], 'hello-world');
     }
   )
+}).addBatch({
+  'When a newer version is available': {
+    'update hello-world': shouldQuillOk(
+      function setup(callback) {
+        var systemDir = path.join(systemsDir, 'hello-world'),
+            installFile = path.join(systemDir, 'scripts', 'install.sh'),
+            api = nock('http://api.testquill.com'),
+            that = this;
+
+        that.data = [];
+        quill.on(['run', 'stdout'], function (system, data) {
+          that.data.push({
+            name: system.name,
+            data: '' + data
+          });
+        });
+
+        mock.systems.local(api, {
+          'hello-world': {
+            requests: 2,
+            versions: ['0.1.0'],
+            latest: '0.1.0'
+          }
+        }, callback);
+      },
+      'should install the latest version',
+      function (err, _) {
+        assert.isNull(err);
+        assert.lengthOf(this.data, 1);
+        assert.equal(this.data[0].name, 'hello-world');
+        assert.equal(this.data[0].data, '0.1.0\n');
+      }
+    )
+  }
+}).addBatch({
+  'when lifecycle:disabled is the current platform': {
+    'install fixture-one': shouldQuillOk(
+      function setup(callback) {
+        var api = nock('http://api.testquill.com'),
+            that = this;
+
+        that.data = [];
+        quill.on(['run', 'stdout'], function (system, data) {
+          that.data.push({
+            name: system.name,
+            data: '' + data
+          });
+        });
+
+        //
+        // Mock `os.platform` so this test passes on every
+        // platform.
+        //
+        quill.config.set('lifecycle:disabled', 'quill-test');
+        os.__platform = os.platform;
+        os.platform = function () {
+          return 'quill-test';
+        };
+
+        mock.systems.local(api, callback);
+        helpers.cleanInstalled(['fixture-one']);
+      },
+      'should move files into place but not run the specified script',
+      function (err, _) {
+        assert.isNull(err);
+        assert.lengthOf(this.data, 0);
+        assert.isArray(fs.readdirSync(path.join(helpers.dirs.installDir, 'fixture-one')))
+
+        //
+        // Revert platform mocking.
+        //
+        os.platform = os.__platform;
+        delete os.__platform;
+      }
+    )
+  }
+}).addBatch({
+  'With valid remoteDependencies': {
+    'install hello-remote-deps': shouldQuillOk(
+      function setup(callback) {
+        var api = nock('http://api.testquill.com'),
+            that = this;
+
+        that.data = [];
+        quill.on(['run', 'stdout'], function (system, data) {
+          that.data.push({
+            name: system.name,
+            data: '' + data
+          });
+        });
+
+        helpers.cleanInstalled(['fixture-two', 'hello-remote-deps']);
+        mock.config.servers(api, ['fixture-one']);
+        mock.systems.local(api, callback);
+      },
+      'should install the latest version',
+      function (err, _) {
+        assert.isNull(err);
+        assert.lengthOf(this.data, 2);
+        assert.equal(this.data[1].name, 'hello-remote-deps');
+      }
+    )
+  }
 }).addBatch({
   'unpublish fixture-one': shouldQuillOk(
     function setup() {
