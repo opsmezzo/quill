@@ -1,5 +1,0 @@
-foo is {{ foo }}
-This should be an object: {{ nested }}
-This should template inside out: {{ nested.{{ baz }} }}
-This should index into a list: {{ list.0 }}
-This should index into a list inside out: {{ list.{{ index }} }}
