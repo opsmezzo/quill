@@ -13,9 +13,10 @@ var trees = exports;
 trees['no-deps'] = {
   tree: {
     'no-deps': {
-      versions: [ '0.1.2' ],
+      version: '0.1.2',
       required: '*',
       name: 'no-deps',
+      dependencies: {},
       runlist: []
     }
   },
@@ -33,14 +34,24 @@ trees['hello-remote-deps'] = {
       dependencies: {
         'fixture-two': {
           required: '0.0.x',
-          versions: [ '0.0.0' ],
+          version: '0.0.0',
           name: 'fixture-two',
+          dependencies: {},
           runlist: []
         }
       },
-      versions: [ '0.0.0' ],
+      remoteDependencies: {
+        'fixture-one': {
+          name: 'fixture-one',
+          version: '0.0.0',
+          dependencies: {},
+          required: '0.0.x',
+          runlist: []
+        }
+      },
+      version: '0.0.0',
       name: 'hello-remote-deps',
-      runlist: []
+      runlist: ['fixture-two']
     }
   },
   list: ['fixture-two@0.0.0', 'hello-remote-deps@0.0.0']
@@ -56,19 +67,21 @@ trees['depends-on-a-b'] = {
       dependencies: {
         b: {
           name: 'b',
-          versions: [ '0.2.0' ],
+          version: '0.2.0',
           required: '0.2.0',
+          dependencies: {},
           runlist: []
         },
         a: {
           name: 'a',
-          versions: [ '0.0.1' ],
+          version: '0.0.1',
           required: '0.0.1',
+          dependencies: {},
           runlist: []
         }
       },
       name: 'depends-on-a-b',
-      versions: [ '0.1.2' ],
+      version: '0.1.2',
       required: '*',
       runlist: [ 'b', 'a' ]
     }
@@ -89,13 +102,15 @@ trees['dep-in-dep'] = {
           name: 'b',
           runlist: [],
           required: '0.2.0',
-          versions: [ '0.2.0' ]
+          dependencies: {},
+          version: '0.2.0'
         },
         a: {
           name: 'a',
           runlist: [],
           required: '0.0.1',
-          versions: [ '0.0.1' ]
+          dependencies: {},
+          version: '0.0.1'
         },
         c: {
           name: 'c',
@@ -105,15 +120,16 @@ trees['dep-in-dep'] = {
               name: 'b',
               runlist: [],
               required: '0.2.0',
-              versions: [ '0.2.0' ]
+              dependencies: {},
+              version: '0.2.0'
             }
           },
           required: '0.3.0',
-          versions: [ '0.3.0' ]
+          version: '0.3.0'
         }
       },
       required: '*',
-      versions: [ '1.0.2' ]
+      version: '1.0.2'
     }
   },
   list: ['b@0.2.0', 'c@0.3.0', 'a@0.0.1', 'dep-in-dep@1.0.2']
@@ -131,12 +147,13 @@ trees['single-dep'] = {
           name: 'a',
           runlist: [],
           required: '0.0.1',
-          versions: [ '0.0.1' ]
+          dependencies: {},
+          version: '0.0.1'
         }
       },
-      runlist: [],
+      runlist: ['a'],
       required: '*',
-      versions: [ '0.1.0' ]
+      version: '0.1.0'
     }
   },
   list: ['a@0.0.1', 'single-dep@0.1.0']
@@ -153,14 +170,15 @@ trees['empty-runlist'] = {
       dependencies: {
         a: {
           required: '0.0.1',
-          versions: [ '0.0.1' ],
+          version: '0.0.1',
           name: 'a',
+          dependencies: {},
           runlist: []
         }
       },
-      versions: [ '0.1.0' ],
+      version: '0.1.0',
       name: 'empty-runlist',
-      runlist: []
+      runlist: ['a']
     }
   },
   list: ['a@0.0.1', 'empty-runlist@0.1.0']
@@ -173,18 +191,20 @@ trees['empty-runlist'] = {
 trees['single-ubuntu-dep'] = {
   tree: {
     'single-ubuntu-dep': {
-      runlist: [],
-      versions: [ '0.0.1' ],
+      runlist: ['a', 'b'],
+      version: '0.0.1',
       dependencies: {
         a: {
           runlist: [],
-          versions: [ '0.0.1' ],
+          version: '0.0.1',
+          dependencies: {},
           name: 'a',
           required: '0.0.1'
         },
         b: {
           runlist: [],
-          versions: [ '0.2.0' ],
+          version: '0.2.0',
+          dependencies: {},
           name: 'b',
           required: '0.2.0'
         }

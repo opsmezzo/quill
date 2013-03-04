@@ -148,7 +148,7 @@ exports.shouldAnalyzeDeps = function (system, os) {
       },
       "should respond with the correct dependency tree": function (err, actual) {
         assert.isNull(err);
-        //assert.deepEqual(actual, tree);
+        assert.deepEqual(actual, tree);
       },
       "the runlist() method": exports.shouldMakeRunlist(system, os)
     }
