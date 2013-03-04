@@ -76,7 +76,8 @@ vows.describe('quill/composer/config').addBatch(
               name: 'missing-config',
               settings: {
                 foo: 'bazz',
-                baz: 'foo'
+                baz: 'foo',
+                index: 0
               }
             }
           });
