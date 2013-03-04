@@ -125,10 +125,10 @@ exports.shouldInit = function (done) {
 };
 
 //
-// ### function shouldFindDeps (args)
+// ### function shouldFindDeps (system, os)
 //
 // Setups mock API endpoints for the `systems`, invokes 
-// `quill.composer.dependencies(args)` and asserts the result
+// `quill.composer.dependencies()` and asserts the result
 // is equal to `tree`.
 //
 exports.shouldAnalyzeDeps = function (system, os) {
@@ -141,10 +141,11 @@ exports.shouldAnalyzeDeps = function (system, os) {
   return {
     "the dependencies() method": {
       topic: function () {
-        quill.composer.dependencies.apply(
-          quill.composer,
-          [system, os, this.callback].filter(Boolean)
-        );
+        quill.composer.dependencies({
+          client: quill.systems,
+          systems: system,
+          os: os
+        }, this.callback);
       },
       "should respond with the correct dependency tree": function (err, actual) {
         assert.isNull(err);
