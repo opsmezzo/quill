@@ -1,0 +1,7 @@
+#!/usr/bin/env node
+
+console.log(
+  require(
+    require('path').resolve(process.argv[2])
+  ).version
+);
