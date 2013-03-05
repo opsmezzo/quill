@@ -15,8 +15,8 @@ var assert = require('assert'),
     quill = require('../lib/quill');
 
 var shouldQuillOk = macros.shouldQuillOk,
-    systemsDir = path.join(__dirname, '..', 'fixtures', 'systems'),
-    startDir = process.cwd(),
+    systemsDir    = helpers.dirs.systems,
+    startDir      = process.cwd(),
     ssl;
     
 //

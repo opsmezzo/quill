@@ -16,11 +16,11 @@ var assert = require('assert'),
     mock = require('../helpers/mock'),
     quill = require('../../lib/quill');
 
-var fixturesDir = path.join(__dirname, '..', 'fixtures'),
-    systemsDir = path.join(fixturesDir, 'systems'),
-    placeDir = path.join(fixturesDir, 'untar'),
-    cacheDir = path.join(fixturesDir, 'cache'),
-    sourceDir = path.join(systemsDir, 'tgz');
+var fixturesDir = helpers.dirs.fixtures,
+    systemsDir  = helpers.dirs.systems,
+    cacheDir    = helpers.dirs.cache,
+    placeDir    = path.join(fixturesDir, 'untar'),
+    sourceDir   = path.join(systemsDir, 'tgz');
 
 vows.describe('quill/composer/cache').addBatch(
   macros.shouldInit(function () {

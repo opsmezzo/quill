@@ -20,8 +20,8 @@ var assert = require('assert'),
     quill = require('../../lib/quill');
 
 var shouldQuillOk = macros.shouldQuillOk,
-    systemsDir = path.join(__dirname, '..', 'fixtures', 'systems'),
-    startDir = process.cwd();
+    systemsDir    = helpers.dirs.systems,
+    startDir      = process.cwd();
 
 //
 // Remove any existing tarballs for idempotency.
@@ -246,7 +246,7 @@ vows.describe('quill/commands/systems').addBatch({
       function (err, _) {
         assert.isNull(err);
         assert.lengthOf(this.data, 0);
-        assert.isArray(fs.readdirSync(path.join(helpers.dirs.installDir, 'fixture-one')))
+        assert.isArray(fs.readdirSync(path.join(helpers.dirs.install, 'fixture-one')))
 
         //
         // Revert platform mocking.
