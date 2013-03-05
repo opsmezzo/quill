@@ -15,7 +15,7 @@ var assert = require('assert'),
     quill = require('../lib/quill');
 
 var shouldQuillOk = macros.shouldQuillOk,
-    systemsDir    = helpers.dirs.systemsDir,
+    systemsDir    = helpers.dirs.systems,
     startDir      = process.cwd(),
     ssl;
     

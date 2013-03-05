@@ -16,7 +16,7 @@ var fs = require('fs'),
 
 var mock = module.exports = require('system.json/test/helpers/mock');
 
-var systemsDir = helpers.dirs.systemsDir,
+var systemsDir = helpers.dirs.systems,
     sourceDir  = path.join(systemsDir, 'tgz');
 
 mock.config = {};

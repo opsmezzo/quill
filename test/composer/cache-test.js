@@ -16,9 +16,9 @@ var assert = require('assert'),
     mock = require('../helpers/mock'),
     quill = require('../../lib/quill');
 
-var fixturesDir = helpers.dirs.fixturesDir,
-    systemsDir  = helpers.dirs.systemsDir,
-    cacheDir    = helpers.dirs.cacheDir,
+var fixturesDir = helpers.dirs.fixtures,
+    systemsDir  = helpers.dirs.systems,
+    cacheDir    = helpers.dirs.cache,
     placeDir    = path.join(fixturesDir, 'untar'),
     sourceDir   = path.join(systemsDir, 'tgz');
 

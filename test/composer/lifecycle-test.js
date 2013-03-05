@@ -16,10 +16,10 @@ var assert = require('assert'),
     quill = require('../../lib/quill');
 
 var shouldQuillOk = macros.shouldQuillOk,
-    fixturesDir   = helpers.dirs.fixturesDir,
-    systemsDir    = helpers.dirs.systemsDir,
-    cacheDir      = helpers.dirs.cacheDir,
-    installDir    = helpers.dirs.installDir;
+    fixturesDir   = helpers.dirs.fixtures,
+    systemsDir    = helpers.dirs.systems,
+    cacheDir      = helpers.dirs.cache,
+    installDir    = helpers.dirs.install;
 
 function assertHistory(action, system) {
   var details = helpers.latestHistory(system, 2),

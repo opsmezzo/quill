@@ -16,8 +16,8 @@ var assert = require('assert'),
     quill = require('../../lib/quill');
 
 var shouldQuillOk = macros.shouldQuillOk,
-    fixturesDir   = helpers.dirs.fixturesDir,
-    systemsDir    = helpers.dirs.systemsDir,
+    fixturesDir   = helpers.dirs.fixtures,
+    systemsDir    = helpers.dirs.systems,
     installDir    = path.join(fixturesDir, 'installed'),
     sourceDir     = path.join(systemsDir, 'tgz');
 
