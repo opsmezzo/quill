@@ -12,7 +12,7 @@ var assert = require('assert'),
     vows = require('vows'),
     quill = require('../../lib/quill');
 
-var systemsDir = path.join(__dirname, '..', 'fixtures', 'systems');
+var systemsDir = path.dirname(require.resolve('system.json/test/fixtures'));
 
 function shouldIgnore(system, pattern) {
   return {

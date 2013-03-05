@@ -1,7 +1,0 @@
-{
-  "name": "gitignore",
-  "version": "0.0.0",
-  "description": "System with gitignore file",
-  "keywords": ["test", "fixture", "gitignore"],
-  "author": "Nodejitsu Inc <info@nodejitsu.com>"
-}

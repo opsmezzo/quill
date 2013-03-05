@@ -16,11 +16,11 @@ var assert = require('assert'),
 // Setup test directories
 //
 exports.dirs             = {};
-exports.dirs.fixturesDir = path.join(__dirname, '..', 'fixtures');
-exports.dirs.systemsDir  = path.join(exports.dirs.fixturesDir, 'systems');
-exports.dirs.installDir  = path.join(exports.dirs.fixturesDir, 'installed');
-exports.dirs.cacheDir    = path.join(exports.dirs.fixturesDir, 'cache');
-exports.dirs.ssl         = path.join(exports.dirs.fixturesDir, 'ssl');
+exports.dirs.fixtures = path.join(__dirname, '..', 'fixtures');
+exports.dirs.systems  = path.dirname(require.resolve('system.json/test/fixtures'));
+exports.dirs.install  = path.join(exports.dirs.fixtures, 'installed');
+exports.dirs.cache    = path.join(exports.dirs.fixtures, 'cache');
+exports.dirs.ssl         = path.join(exports.dirs.fixtures, 'ssl');
 
 exports.init = function (callback) {
   quill.config.stores.file.file = path.join(__dirname, '..', 'fixtures', 'dot-quillconf');
@@ -31,7 +31,7 @@ exports.init = function (callback) {
 
 exports.cleanInstalled = function (systems) {
   try {
-    var installDir = exports.dirs.installDir;
+    var installDir = exports.dirs.install;
     
     fs.readdirSync(installDir)
       .filter(function (file) {
@@ -50,7 +50,7 @@ exports.cleanInstalled = function (systems) {
 }
 
 exports.latestHistory = function (system, count) {
-  var historyFile = path.join(exports.dirs.installDir, system.name, 'history.json'),
+  var historyFile = path.join(exports.dirs.install, system.name, 'history.json'),
       history = JSON.parse(fs.readFileSync(historyFile, 'utf8'));
   
   return {
@@ -63,7 +63,7 @@ exports.assertScriptOutput = function (actual, expected) {
   assert.isObject(actual);
   assert.equal(actual.name, expected);
   assert.equal(actual.data, fs.readFileSync(
-    path.join(exports.dirs.systemsDir, expected, 'files', expected + '.txt'),
+    path.join(exports.dirs.systems, expected, 'files', expected + '.txt'),
     'utf8'
   ));
 };
