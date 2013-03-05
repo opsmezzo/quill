@@ -20,8 +20,8 @@ var assert = require('assert'),
     quill = require('../../lib/quill');
 
 var shouldQuillOk = macros.shouldQuillOk,
-    systemsDir = path.join(__dirname, '..', 'fixtures', 'systems'),
-    startDir = process.cwd();
+    systemsDir    = helpers.dirs.systemsDir,
+    startDir      = process.cwd();
 
 //
 // Remove any existing tarballs for idempotency.

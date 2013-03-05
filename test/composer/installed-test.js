@@ -16,10 +16,10 @@ var assert = require('assert'),
     quill = require('../../lib/quill');
 
 var shouldQuillOk = macros.shouldQuillOk,
-    fixturesDir = path.join(__dirname, '..', 'fixtures'),
-    systemsDir = path.join(fixturesDir, 'systems'),
-    installDir = path.join(fixturesDir, 'installed'),
-    sourceDir = path.join(systemsDir, 'tgz');
+    fixturesDir   = helpers.dirs.fixturesDir,
+    systemsDir    = helpers.dirs.systemsDir,
+    installDir    = path.join(fixturesDir, 'installed'),
+    sourceDir     = path.join(systemsDir, 'tgz');
 
 function assertInstalled(system) {
   assert.isString(system.installed);

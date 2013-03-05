@@ -11,17 +11,15 @@ var fs = require('fs'),
     async = common.async,
     nock = require('nock'),
     composer = require('../../lib/quill/composer'),
-    systems = require('../fixtures/systems');
+    helpers = require('./index');
+    systems = require('system.json/test/fixtures');
 
-var mock = module.exports;
+var mock = module.exports = require('system.json/test/helpers/mock');
 
-var systemsDir = path.join(__dirname, '..', 'fixtures', 'systems'),
-    sourceDir = path.join(systemsDir, 'tgz');
+var systemsDir = helpers.dirs.systemsDir,
+    sourceDir  = path.join(systemsDir, 'tgz');
 
-mock.api     = nock('http://api.testquill.com');
-mock.systems = {};
-mock.config  = {};
-
+mock.config = {};
 mock.config.servers = function (api, systems) {
   api.get('/config/servers')
     .reply(200, systems.reduce(function (config, name) {
@@ -32,11 +30,6 @@ mock.config.servers = function (api, systems) {
 
       return config;
     }, {}));
-};
-
-mock.systems.get = function (api, system) {
-  api.get('/systems/' + system.name)
-    .reply(200, { system: system });
 };
 
 mock.systems.download = function (api, system, tarball) {
@@ -50,12 +43,6 @@ mock.systems.download = function (api, system, tarball) {
 
     api.get('/systems/' + system.name + '/' + version)
       .reply(200, contents);
-  });
-};
-
-mock.systems.all = function (api) {
-  systems.forEach(function (system) {
-    mock.systems.get(api, system);
   });
 };
 

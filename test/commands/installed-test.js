@@ -18,9 +18,7 @@ var assert = require('assert'),
     mock = require('../helpers/mock'),
     quill = require('../../lib/quill');
 
-var shouldQuillOk = macros.shouldQuillOk,
-    systemsDir = path.join(__dirname, '..', 'fixtures', 'systems'),
-    startDir = process.cwd();
+var shouldQuillOk = macros.shouldQuillOk;
 
 vows.describe('quill/commands/installed').addBatch({
   'installed list': shouldQuillOk()
