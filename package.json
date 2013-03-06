@@ -28,7 +28,7 @@
     "quill-template": "0.4.0",
     "rget": "1.1.0",
     "semver": "1.1.4",
-    "system.json": "~1.0.3",
+    "system.json": "~1.0.5",
     "union": "0.3.6",
     "wtfos": "0.0.3"
   },
