@@ -1,7 +1,7 @@
 {
   "name": "quill-cli",
   "description": "Flawless configuration of your cloud",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "author": "Nodejitsu Inc. <info@nodejitsu.com>",
   "repository": {
     "type": "git",
