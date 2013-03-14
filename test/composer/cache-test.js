@@ -83,10 +83,81 @@ vows.describe('quill/composer/cache').addBatch(
   }
 }).addBatch({
   "When using quill.composer.cache": {
+    "the add() method": {
+      "with a system that is already cached": {
+        topic: function () {
+          //
+          // Note: We are NOT setting up API mock here because the
+          // API SHOULD NOT BE HIT because THIS ALREADY EXISTS IN THE CACHE.
+          //
+          quill.composer.cache.add({
+            systems: [{
+              name: 'fixture-one',
+              version: '0.0.0'
+            }]
+          }, this.callback);
+        },
+        "add the system to the cache": function (err, versions) {
+          assert.isNull(err);
+          assert.isArray(versions);
+          assert.lengthOf(versions, 1);
+
+          var files = fs.readdirSync(cacheDir);
+
+          versions.forEach(function (version) {
+            assert.include(files, version.name);
+
+            try { var system = JSON.parse(fs.readFileSync(path.join(version.cached, 'system.json'))) }
+            catch (ex) { assert.isNull(ex) }
+
+            assert.isObject(system);
+            assert.equal(version.name, system.name);
+          });
+        }
+      },
+      "with some systems that are cached": {
+        topic: function () {
+          var api = nock('http://api.testquill.com'),
+              that = this;
+
+          mock.systems.local(api, function () {
+            quill.composer.cache.add({
+              systems: [{
+                name: 'hello-world',
+                version: '0.0.0'
+              }, {
+                name: 'fixture-two',
+                version: '0.0.0'
+              }]
+            }, that.callback);
+          });
+        },
+        "add the system to the cache": function (err, versions) {
+          assert.isNull(err);
+          assert.isArray(versions);
+          assert.lengthOf(versions, 2);
+
+          var files = fs.readdirSync(cacheDir);
+
+          versions.forEach(function (version) {
+            assert.include(files, version.name);
+
+            try { var system = JSON.parse(fs.readFileSync(path.join(version.cached, 'system.json'))) }
+            catch (ex) { assert.isNull(ex) }
+
+            assert.isObject(system);
+            assert.equal(version.name, system.name);
+          });
+        }
+      }
+    }
+  }
+}).addBatch({
+  "When using quill.composer.cache": {
     "the clean() method": {
       "when removing named systems": {
         topic: function () {
-          quill.composer.cache.clean(['fixture-one', 'fixture-two'], this.callback);
+          quill.composer.cache.clean(['hello-world', 'fixture-one', 'fixture-two'], this.callback);
         },
         "should remove all files from the cache": function (err) {
           assert.isTrue(!err);
