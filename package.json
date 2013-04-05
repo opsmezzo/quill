@@ -18,7 +18,7 @@
     "colors": "0.6.0-1",
     "conservatory-api": "0.6.3",
     "errs": "0.2.3",
-    "flatiron": "0.3.4",
+    "flatiron": "0.3.5",
     "flatiron-cli-config": "0.1.4",
     "flatiron-cli-users": "0.1.8",
     "fstream": "0.1.22",
