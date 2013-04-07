@@ -25,7 +25,7 @@
     "multimeter-stack": "0.2.0",
     "pkginfo": "0.2.2",
     "quill-tar": "0.2.1",
-    "quill-template": "0.4.0",
+    "quill-template": "~0.6.1",
     "rget": "1.1.0",
     "semver": "1.1.4",
     "system.json": "~1.1.2",
