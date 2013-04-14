@@ -16,7 +16,7 @@
   "dependencies": {
     "archy": "0.0.2",
     "colors": "0.6.0-1",
-    "conservatory-api": "0.6.3",
+    "composer-api": "1.0.0",
     "errs": "0.2.3",
     "flatiron": "0.3.5",
     "flatiron-cli-config": "0.1.4",
