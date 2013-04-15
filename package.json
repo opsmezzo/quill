@@ -36,9 +36,6 @@
     "nock": "0.16.x",
     "vows": "0.7.x"
   },
-  "publishConfig": {
-    "registry": "http://reg.njitsu.net:5984"
-  },
   "bin": {
     "quill": "./bin/quill"
   },
