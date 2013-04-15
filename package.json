@@ -5,7 +5,7 @@
   "author": "Nodejitsu Inc. <info@nodejitsu.com>",
   "repository": {
     "type": "git",
-    "url": "http://github.com/nodejitsu/quill.git"
+    "url": "https://github.com/opsmezzo/quill.git"
   },
   "keywords": [
     "deploy",
