@@ -44,6 +44,6 @@
     "test": "vows test/*-test.js test/**/*-test.js -i --spec"
   },
   "engines": {
-    "node": ">= 0.4.4"
+    "node": "0.10.x || 0.8.x || 0.6.x"
   }
 }

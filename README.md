@@ -1,6 +1,6 @@
-# quill
+# quill [![Build Status](https://secure.travis-ci.org/opsmezzo/quill.png)](http://travis-ci.org/opsmezzo/quill)
 
-**Flawless configuration of your cloud infrastructure:** `quill` is a configuration tool with a focus on automation and infrastructure opacity.
+_Flawless configuration of your cloud infrastructure:_ `quill` is a configuration tool with a focus on automation and infrastructure opacity.
 
 ![](/assets/quill.png)
 
@@ -41,7 +41,7 @@ will list all `system` Resources in your current registry. The tool itself is de
 ## Installation
 
 ``` bash
-  $ [sudo] npm install quill-cli -g --registry http://reg.njitsu.net:5984/ --user-config YOUR-PRIVATE-NPM-CONFIG
+  $ npm install quill-cli -g
 ```
 
 ## Running locally
@@ -50,7 +50,7 @@ For testing purposes it is possible to run `quill` locally if you have `conserva
 
 * _Start conservatory locally with sample data_
 ```
-  $ cd /path/to/conservatory
+  $ cd /path/to/composer
   $ bin/seed
   $ bin/composer
 ```
@@ -80,7 +80,7 @@ All tests are written with [vows][0] and intended to be run with [npm][1]:
 ```
 
 #### Author: [Nodejitsu Inc][2]
-#### Contributors: [Charlie Robbins](http://github.com/indexzero)
+#### Contributors: [Charlie Robbins](http://github.com/indexzero), [Maciej Malecki](http://github.com/mmalecki), [Bradley Meck](http://github.com/bmeck)
 
 [0]: http://vowsjs.org
 [1]: http://npmjs.org
