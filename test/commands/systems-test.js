@@ -171,13 +171,14 @@ vows.describe('quill/commands/systems').addBatch({
       });
 
       mock.systems.local(api, callback);
-      helpers.cleanInstalled(['fixture-one', 'hello-world']);
+      helpers.cleanInstalled(['fixture-one', 'fixture-two', 'hello-world']);
     },
     'should run the specified script',
     function (err, _) {
       assert.isNull(err);
       assertScriptOutput(this.data[0], 'fixture-one');
-      assertScriptOutput(this.data[1], 'hello-world');
+      assertScriptOutput(this.data[1], 'fixture-two');
+      assertScriptOutput(this.data[2], 'hello-world');
     }
   )
 }).addBatch({

@@ -37,8 +37,13 @@ vows.describe('quill/composer/config').addBatch(
         assert.isObject(config.os.networkInterfaces);
         Object.keys(config.os.networkInterfaces).forEach(function (name) {
           assert.isObject(config.os.networkInterfaces[name]);
-          assert.isArray(config.os.networkInterfaces[name].ipv4);
-          assert.isArray(config.os.networkInterfaces[name].ipv6);
+          if (config.os.networkInterfaces[name].ipv4) {
+            assert.isArray(config.os.networkInterfaces[name].ipv4);
+          }
+
+          if (config.os.networkInterfaces[name].ipv6) {
+            assert.isArray(config.os.networkInterfaces[name].ipv4);
+          }
         });
       }
     }
