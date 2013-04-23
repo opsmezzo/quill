@@ -97,7 +97,7 @@ exports.shouldQuillOk = function () {
 
   context[assertion] = assertFn 
     ? assertFn
-    : function (err) { assert.isTrue(!err) };
+    : function (err, _) { assert.isTrue(!err) };
   
   return context;
 };
