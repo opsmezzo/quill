@@ -3,7 +3,9 @@
   "and I this is": "crazy",
   "but": {
     "here": {
-      "is my config": "so put me in conservatory maybe?"
+      "is my config": {
+        "so": "put me in conservatory maybe?"
+      }
     }
   }
 }

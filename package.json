@@ -23,6 +23,7 @@
     "flatiron-cli-users": "0.1.8",
     "fstream": "0.1.22",
     "multimeter-stack": "0.2.0",
+    "objs": "~0.1.0",
     "pkginfo": "0.2.2",
     "quill-tar": "0.2.2",
     "quill-template": "~0.6.1",

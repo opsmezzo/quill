@@ -1,0 +1,9 @@
+{
+  "config": {
+    "some": {
+      "deep": {
+        "and": "some deep addition"
+      }
+    }
+  }
+}

@@ -1,10 +1,12 @@
 var assert = require('assert'),
+    objs = require('objs'),
     nock = require('nock'),
     vows = require('vows'),
     common = require('flatiron').common,
     macros = require('../helpers/macros'),
     quill = require('../../lib/quill'),
-    testConfig = require('../fixtures/configs/test-config.json');
+    testConfig = require('../fixtures/configs/test-config.json'),
+    deepMerge = require('../fixtures/configs/deep-merge.json');
 
 var shouldQuillOk = macros.shouldQuillOk;
 
@@ -88,21 +90,22 @@ vows.describe('quill/commands/remote').addBatch({
       .reply(201);
   })
 }).addBatch({
-  'remote merge test-config test/fixtures/configs/test-config.json': shouldQuillOk(function setup() {
+  'remote merge test-config test/fixtures/configs/deep-merge.json': shouldQuillOk(function setup() {
     var original = {
       settings: {
         config: {
-          some: 'modification'
+          some: {
+            deep: {
+              base: "modification"
+            }
+          }
         },
         'I': ['just', 'merged', 'you']
       }
     };
 
     var merged = common.clone(original);
-
-    Object.keys(testConfig).forEach(function (key) {
-      merged.settings[key] = testConfig[key];
-    });
+    merged.settings = objs.merge.deep(merged.settings, deepMerge);
 
     nock('http://api.testquill.com')
       .get('/config/test-config')
