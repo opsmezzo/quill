@@ -32,7 +32,9 @@
     "system.json": "~1.2.2",
     "union": "0.3.6",
     "wtfos": "0.0.3",
-    "rimraf": "2.2.x"
+    "rimraf": "2.2.x",
+    "wtfpm": "1.0.x",
+    "pma": "1.0.x"
   },
   "devDependencies": {
     "nock": "0.16.x",
